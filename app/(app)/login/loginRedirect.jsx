@@ -1,0 +1,10 @@
+import { Redirect } from 'expo-router';
+import React from 'react';
+
+const LoginRedirect = () => {
+  return (
+    <Redirect href={'/login'} />
+  );
+};
+
+export default LoginRedirect;
