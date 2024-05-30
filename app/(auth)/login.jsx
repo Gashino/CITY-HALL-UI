@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-export default function HomeScreen() {
+const MyComponent = () => {
   return (
     <View>
-      <Text>Welcome to the new project!</Text>
+      <Text>MyComponent</Text>
     </View>
   );
-}
+};
+
+export default MyComponent;
