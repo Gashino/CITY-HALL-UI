@@ -1,39 +1,83 @@
-import { router } from 'expo-router';
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { router } from "expo-router";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  Alert,
+} from "react-native";
+
+import { useAuth } from "../../../context/auth";
+import { loginUser } from "../../../services/userService";
 
 const Login = () => {
+  const { user, setUser } = useAuth();
+  const [accces, setAcces] = useState("");
+  const [password, setPassword] = useState("");
+  const [attemptedLogin, setAttemptedLogin] = useState(false);
+
+  const handleLogin = () => {
+    setAttemptedLogin(true);
+    loginUser(accces, password, setUser);
+  };
+
+  useEffect(() => {
+    if (user !== null) {
+      router.replace("/inicio");
+    } else if (attemptedLogin && user === null) {
+      Alert.alert("Error", "Usuario o contraseña incorrectos");
+      setAttemptedLogin(false);
+    }
+  }, [user, attemptedLogin]);
+
   return (
     <View style={styles.container}>
-      <Image 
-        source={require('../../../assets/logo.png')} 
+      <Image
+        source={require("../../../assets/logo.png")}
         style={styles.logo}
         f
       />
       <View style={styles.inputContainer}>
         <Text style={styles.label}>EMAIL</Text>
-        <TextInput 
-          style={styles.input} 
+        <TextInput
+          style={styles.input}
           placeholder="Email"
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
+          onChangeText={(text) => {
+            setAcces(text);
+          }}
         />
         <Text style={styles.label}>CONTRASEÑA</Text>
-        <TextInput 
+        <TextInput
           style={styles.input}
           placeholder="Contraseña"
           secureTextEntry
           autoCapitalize="none"
           autoCorrect={false}
+          onChangeText={(text) => {
+            setPassword(text);
+          }}
         />
-        <TouchableOpacity onPress={()=>{router.navigate('login/forgotpassword')}}>
+        <TouchableOpacity
+          onPress={() => {
+            router.navigate("login/forgotpassword");
+          }}
+        >
           <Text style={styles.forgotPassword}>Olvidé mi contraseña</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>{router.navigate('login/register')}}>
+        <TouchableOpacity
+          onPress={() => {
+            router.navigate("login/register");
+          }}
+        >
           <Text style={styles.registrarme}>-Registrarse-</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={()=>{router.replace('/inicio')}}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>INICIAR SESIÓN</Text>
         </TouchableOpacity>
       </View>
@@ -44,10 +88,10 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 20,
-    backgroundColor: '#eff0ed',
+    backgroundColor: "#eff0ed",
   },
   logo: {
     width: 240,
@@ -55,45 +99,45 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   inputContainer: {
-    width: '100%',
+    width: "100%",
     height: 400,
   },
   label: {
     marginBottom: 5,
-    color: '#333',
-    fontWeight: 'bold',
+    color: "#333",
+    fontWeight: "bold",
   },
   input: {
     height: 40,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 20,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#f9f9f9",
   },
   forgotPassword: {
-    color: '#007BFF',
-    textAlign: 'center',
+    color: "#007BFF",
+    textAlign: "center",
     marginBottom: 30,
   },
   button: {
     height: 50,
-    backgroundColor: '#333',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#333",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 5,
     marginTop: 80,
   },
   buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
   },
   registrarme: {
-    color: '#007BFF',
-    textAlign: 'center',
+    color: "#007BFF",
+    textAlign: "center",
     marginBottom: 30,
-    fontWeight:'bold'
+    fontWeight: "bold",
   },
 });
 
