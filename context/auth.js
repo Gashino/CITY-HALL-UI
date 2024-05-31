@@ -1,30 +1,18 @@
-// import { useRouter, useSegments } from 'expo-router';
-// import * as React from 'react';
+import React, { createContext, useState, useContext } from "react";
 
-// const AuthContext = createContext(null);
+// Crear el contexto
+const AuthContext = createContext();
 
-// export function useAuth() {
-//     return useContext(AuthContext);
-// }
+// Proveedor del contexto
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
 
-// export function AuthProvider({ children }) {
-//     const rootSegment = useSegments()[0];
-//     const router = useRouter();
+  return (
+    <AuthContext.Provider value={{ user, setUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-//     useEffect(() => {
-//         if (user == null) return;
-//         if (!user && rootSegment !== "(auth)") {
-//             router.replace("/(auth)/login");
-//         } else if (user && rootSegment === "(app)") {
-//             router.replace("/(app)");
-//         }
-//     }, [user, rootSegment]);
-
-//     const [user,setUser] = React.useState(null);
-
-//     return(
-//         <AuthContext.Provider value={{user}} signIn={setUser("")}>
-//         {children}
-//         </AuthContext.Provider>
-//     )
-// };
+// Hook personalizado para usar el contexto
+export const useAuth = () => useContext(AuthContext);

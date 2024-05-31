@@ -1,11 +1,8 @@
-import { Redirect } from 'expo-router';
-import React from 'react';
-import { Text, View } from 'react-native';
+import { Redirect } from "expo-router";
+import React from "react";
 
 const index = () => {
-  return (
-      <Redirect href="/servicios" />
-  )
+  return <Redirect href="/servicios" />;
 };
 
 export default index;

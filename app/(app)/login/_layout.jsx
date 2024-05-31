@@ -5,12 +5,13 @@ import { Button, StyleSheet, Text, TouchableOpacity } from "react-native";
 const LoginScreens = () => {
   return (
     <Stack>
-      <Stack.Screen name="confirmationPassword" />
-      <Stack.Screen name="confirmationRegister" />
+      <Stack.Screen name="confirmationPassword" options={{ headerTitle: "" }} />
+      <Stack.Screen name="confirmationRegister" options={{ headerTitle: "" }} />
 
       <Stack.Screen
         name="forgotpassword"
         options={{
+          title: "Olvide mi contraseña",
           headerLeft: () => (
             <TouchableOpacity onPress={() => router.navigate("/login")}>
               <Text style={styles.loginbutton}>{"< Login"}</Text>
@@ -21,6 +22,7 @@ const LoginScreens = () => {
       <Stack.Screen
         name="register"
         options={{
+          title: "Registro",
           headerLeft: () => (
             <TouchableOpacity onPress={() => router.navigate("/login")}>
               <Text style={styles.loginbutton}>{"< Login"}</Text>
