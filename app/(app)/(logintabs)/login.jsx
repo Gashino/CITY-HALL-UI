@@ -13,32 +13,21 @@ import {
 import { loginUser } from "../../../services/userService";
 
 const Login = () => {
-  const [user, setUser] = useState(null);
   const [accces, setAcces] = useState("");
   const [password, setPassword] = useState("");
-  const [attemptedLogin, setAttemptedLogin] = useState(false);
 
-  const handleLogin = () => {
-    setAttemptedLogin(true);
-    loginUser(accces, password, setUser);
-  };
-
-  useEffect(() => {
-    if (user !== null) {
+  const handleLogin = async () => {
+    const result = await loginUser(accces, password);
+    if (result !== null) {
       router.replace("/inicio");
-    } else if (attemptedLogin && user === null) {
+    } else {
       Alert.alert("Error", "Usuario o contraseña incorrectos");
-      setAttemptedLogin(false);
     }
-  }, [user, attemptedLogin]);
+  };
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../../assets/logo.png")}
-        style={styles.logo}
-        f
-      />
+      <Image source={require("../../../assets/logo.png")} style={styles.logo} />
       <View style={styles.inputContainer}>
         <Text style={styles.label}>EMAIL</Text>
         <TextInput
