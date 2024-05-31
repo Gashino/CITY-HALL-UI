@@ -10,11 +10,10 @@ import {
   Alert,
 } from "react-native";
 
-import { useAuth } from "../../../context/auth";
 import { loginUser } from "../../../services/userService";
 
 const Login = () => {
-  const { user, setUser } = useAuth();
+  const [user, setUser] = useState(null);
   const [accces, setAcces] = useState("");
   const [password, setPassword] = useState("");
   const [attemptedLogin, setAttemptedLogin] = useState(false);
