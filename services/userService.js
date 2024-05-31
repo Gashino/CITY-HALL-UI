@@ -8,7 +8,7 @@ export const loginUser = async (access, password, setUser) => {
       password: password,
     });
     if (response.status === 200) {
-      setUser(response.data.user);
+      setUser(response.data);
     } else {
       setUser(null);
     }
