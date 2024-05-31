@@ -1,4 +1,4 @@
-import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "./axiosConfig";
 
 export const loginUser = async (access, password, setUser) => {
@@ -8,7 +8,8 @@ export const loginUser = async (access, password, setUser) => {
       password: password,
     });
     if (response.status === 200) {
-      setUser(response.data.user);
+      setUser(response.data);
+      await AsyncStorage.setItem("user", JSON.stringify(response.data));
     } else {
       setUser(null);
     }
