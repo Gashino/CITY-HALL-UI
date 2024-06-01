@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableHighlight,
-  Animated,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, Animated, Pressable } from "react-native";
 import { FontAwesome5, Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 
@@ -73,37 +67,34 @@ export default class AddButton extends React.Component {
           }}
         >
           <View style={styles.secondaryButton}>
-            <TouchableOpacity
+            <Pressable
               onPress={() => router.navigate("reclamoCreation")}
               style={{ alignItems: "center", justifyContent: "center" }}
               activeOpacity={1}
             >
               <Feather name="activity" size={24} color="#FFF" />
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </Animated.View>
         <Animated.View
           style={{ position: "absolute", left: pulseX, top: pulseY }}
         >
           <View style={styles.secondaryButton}>
-            <TouchableOpacity
+            <Pressable
               onPress={() => router.navigate("denunciaCreation")}
               style={{ alignItems: "center", justifyContent: "center" }}
               activeOpacity={1}
             >
               <Feather name="activity" size={24} color="#FFF" />
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </Animated.View>
         <Animated.View style={[styles.button, sizeStyle]}>
-          <TouchableHighlight
-            onPress={this.handlePress}
-            underlayColor="#7F58FF"
-          >
+          <Pressable onPress={this.handlePress} underlayColor="#7F58FF">
             <Animated.View style={{ transform: [{ rotate: rotation }] }}>
               <FontAwesome5 name="plus" size={24} color="#FFF" />
             </Animated.View>
-          </TouchableHighlight>
+          </Pressable>
         </Animated.View>
       </View>
     );
