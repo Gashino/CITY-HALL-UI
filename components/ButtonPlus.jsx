@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Animated, Pressable } from "react-native";
-import { FontAwesome5, Feather } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 export default class AddButton extends React.Component {
@@ -69,10 +69,11 @@ export default class AddButton extends React.Component {
           <View style={styles.secondaryButton}>
             <Pressable
               onPress={() => router.navigate("reclamoCreation")}
+              onPressOut={() => this.handlePress()}
               style={{ alignItems: "center", justifyContent: "center" }}
               activeOpacity={1}
             >
-              <Feather name="activity" size={24} color="#FFF" />
+              <Ionicons name="build-outline" size={24} color="#FFF" />
             </Pressable>
           </View>
         </Animated.View>
@@ -82,10 +83,11 @@ export default class AddButton extends React.Component {
           <View style={styles.secondaryButton}>
             <Pressable
               onPress={() => router.navigate("denunciaCreation")}
+              onPressOut={() => this.handlePress()}
               style={{ alignItems: "center", justifyContent: "center" }}
               activeOpacity={1}
             >
-              <Feather name="activity" size={24} color="#FFF" />
+              <Ionicons name="alert-circle-outline" size={24} color="#FFF" />
             </Pressable>
           </View>
         </Animated.View>
@@ -108,9 +110,9 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: "#7F58FF",
+    backgroundColor: "#4624b5",
     position: "absolute",
-    marginTop: -60,
+    marginTop: -45,
     shadowColor: "#7F58FF",
     shadowRadius: 5,
     shadowOffset: { height: 10 },
@@ -124,7 +126,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 48,
     height: 48,
+    marginTop: 10,
     borderRadius: 24,
-    backgroundColor: "#7F58FF",
+    backgroundColor: "#4624b5",
   },
 });
