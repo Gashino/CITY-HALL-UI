@@ -20,7 +20,7 @@ const TabLogin = () => {
               Servicios
             </Text>
           ),
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <Ionicons name="bag-outline" color={color} size={32} />
           ),
         }}
