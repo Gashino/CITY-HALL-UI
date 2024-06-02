@@ -1,7 +1,7 @@
 import { Button, Icon } from "@rneui/base";
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-export default CreateCardBase = ({ title, children }) => {
+export default CreateCardBase = ({ title, children, handler }) => {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -12,6 +12,7 @@ export default CreateCardBase = ({ title, children }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
+          onPress={handler}
           title="Enviar"
           style={styles.button}
           color={"#4624b5"}
