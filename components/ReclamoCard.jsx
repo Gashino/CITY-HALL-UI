@@ -4,7 +4,7 @@ import { Link } from "expo-router";
 import React from "react";
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 
-const img = require("../assets/images/bana.png");
+const img = require("../assets/images/gotera.png");
 
 const getColorByStatus = (status) => {
   switch (status) {
