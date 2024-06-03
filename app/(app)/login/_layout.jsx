@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { Stack, router } from "expo-router";
 import React from "react";
 import { Button, StyleSheet, Text, TouchableOpacity } from "react-native";
@@ -14,7 +15,7 @@ const LoginScreens = () => {
           title: "Olvide mi contraseña",
           headerLeft: () => (
             <TouchableOpacity onPress={() => router.navigate("/login")}>
-              <Text style={styles.loginbutton}>{"< Login"}</Text>
+              <Ionicons name="arrow-back-circle-outline" size={35} />
             </TouchableOpacity>
           ),
         }}
@@ -25,7 +26,7 @@ const LoginScreens = () => {
           title: "Registro",
           headerLeft: () => (
             <TouchableOpacity onPress={() => router.navigate("/login")}>
-              <Text style={styles.loginbutton}>{"< Login"}</Text>
+              <Ionicons name="arrow-back-circle-outline" size={35} />
             </TouchableOpacity>
           ),
         }}
