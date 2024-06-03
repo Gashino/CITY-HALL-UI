@@ -15,10 +15,9 @@ export default CreateCardBase = ({ title, children, handler }) => {
           onPress={handler}
           title="Enviar"
           style={styles.button}
-          color={"#4624b5"}
+          color={"black"}
           buttonStyle={{
             borderRadius: 10,
-            marginTop: 35,
             width: 160,
           }}
           iconRight
@@ -64,6 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonContainer: {
+    marginTop: 35,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,

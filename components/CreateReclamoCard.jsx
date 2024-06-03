@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   View,
+  Alert,
 } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import { getDesperfectos, getSites } from "../services/dataService";
