@@ -4,7 +4,7 @@ import { useAuth } from "../context/auth";
 
 const CreationReclamoCard = () => {
   const { user } = useAuth();
-  return <CreateCardBase title={"Creación de denuncia"}></CreateCardBase>;
+  return <CreateCardBase title={"Crear una denuncia"}></CreateCardBase>;
 };
 
 export default CreationReclamoCard;
