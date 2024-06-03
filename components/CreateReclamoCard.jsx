@@ -54,7 +54,7 @@ const CreationReclamoCard = () => {
   }
 
   return (
-    <CreateCardBase title={"Creación de reclamo"} handler={handleSubmit}>
+    <CreateCardBase title={"Crear un reclamo"} handler={handleSubmit}>
       <ScrollView style={styles.main}>
         <Text style={styles.headerText}>Sitio</Text>
         <SelectList
@@ -102,7 +102,7 @@ const CreationReclamoCard = () => {
               backgroundColor: "#5c4080",
               borderColor: "transparent",
               borderWidth: 0,
-              borderRadius: 30,
+              borderRadius: 10,
             }}
             containerStyle={{
               width: 210,
