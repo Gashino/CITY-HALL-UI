@@ -18,3 +18,12 @@ export const publicarReclamo = async (
     console.error("Error:", error);
   }
 };
+
+export const getReclamos = async () => {
+  try {
+    const response = await api.get("/api/claim/");
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
