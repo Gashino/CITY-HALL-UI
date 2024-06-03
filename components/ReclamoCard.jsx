@@ -6,6 +6,21 @@ import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 
 const img = require("../assets/images/bana.png");
 
+const getColorByStatus = (status) => {
+  switch (status) {
+    case "CERRADO":
+      return "red";
+    case "EN_PROCESO":
+      return "blue";
+    case "RESUELTO":
+      return "green";
+    case "PENDIENTE":
+      return "#bf914b";
+    default:
+      return "grey";
+  }
+};
+
 export default CardReclamo = ({ reclamo }) => {
   return (
     <Pressable>
@@ -16,7 +31,10 @@ export default CardReclamo = ({ reclamo }) => {
             <View style={styles.details}>
               <View style={styles.headerMain}>
                 <Text style={styles.headerText}>Reclamo # {reclamo.id}</Text>
-                <Chip containerStyle={styles.chip} color={"red"}>
+                <Chip
+                  containerStyle={styles.chip}
+                  color={getColorByStatus(reclamo.estado)}
+                >
                   {reclamo.estado}
                 </Chip>
               </View>
