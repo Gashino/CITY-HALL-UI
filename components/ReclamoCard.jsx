@@ -4,19 +4,43 @@ import { Link } from "expo-router";
 import React from "react";
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 
-const img = require("../assets/images/bana.png");
+const img = require("../assets/images/gotera.png");
+
+const getColorByStatus = (status) => {
+  switch (status) {
+    case "CERRADO":
+      return "#E74C3C";
+    case "EN_PROCESO":
+      return "#5DADE2";
+    case "RESUELTO":
+      return "#58D68D";
+    case "PENDIENTE":
+      return "#F5B041";
+    default:
+      return "#85929E";
+  }
+};
 
 export default CardReclamo = ({ reclamo }) => {
   return (
     <Pressable>
       <View style={styles.container}>
         <View style={styles.card}>
-          <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "center",
+            }}
+          >
             <Image source={img} style={styles.image}></Image>
             <View style={styles.details}>
               <View style={styles.headerMain}>
                 <Text style={styles.headerText}>Reclamo # {reclamo.id}</Text>
-                <Chip containerStyle={styles.chip} color={"red"}>
+                <Chip
+                  containerStyle={styles.chip}
+                  color={getColorByStatus(reclamo.estado)}
+                >
                   {reclamo.estado}
                 </Chip>
               </View>
@@ -58,8 +82,8 @@ const styles = StyleSheet.create({
     width: "30%",
     height: 140,
     borderRadius: 15,
-    borderColor: "#2d2033",
     borderWidth: 3,
+    borderColor: "#D5D8DC",
   },
   details: {
     height: "100%",
@@ -84,9 +108,9 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   descripcion: {
-    padding: 3,
+    padding: 5,
     borderColor: "black",
-    borderWidth: 0.5,
+    borderWidth: 0.2,
     borderRadius: 10,
     minHeight: 70,
     maxHeight: 70,

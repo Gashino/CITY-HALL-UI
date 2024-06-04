@@ -56,7 +56,7 @@ const CreationReclamoCard = () => {
   return (
     <CreateCardBase title={"Crear un reclamo"} handler={handleSubmit}>
       <ScrollView style={styles.main}>
-        <Text style={styles.headerText}>Sitio</Text>
+        <Text style={styles.headerText}>¿Dónde se genera el reclamo?</Text>
         <SelectList
           placeholder="Seleccionar sitio"
           setSelected={(val) => {
@@ -66,7 +66,7 @@ const CreationReclamoCard = () => {
           save="key"
         />
         <Divider style={styles.select} inset={true} insetType="middle" />
-        <Text style={styles.headerText}>Desperfecto</Text>
+        <Text style={styles.headerText}>¿Qué tipo de desperfecto?</Text>
         <SelectList
           placeholder="Seleccionar desperfecto"
           setSelected={(val) => {
@@ -76,7 +76,7 @@ const CreationReclamoCard = () => {
           save="key"
         />
         <Divider style={styles.select} inset={true} insetType="middle" />
-        <Text style={styles.headerText}>Descripción</Text>
+        <Text style={styles.headerText}>Describa lo sucedido</Text>
         <TextInput
           style={styles.input}
           placeholder="Ingresar la descripcion del reclamo..."
@@ -89,7 +89,7 @@ const CreationReclamoCard = () => {
         <Divider style={styles.select} inset={true} insetType="middle" />
         <View style={styles.cameraContainer}>
           <Button
-            title="Adjuntar imagenes"
+            title="Adjuntar imágenes"
             icon={{
               name: "camera",
               type: "font-awesome",
@@ -99,7 +99,7 @@ const CreationReclamoCard = () => {
             iconContainerStyle={{ marginRight: 10 }}
             titleStyle={{ fontWeight: "600" }}
             buttonStyle={{
-              backgroundColor: "#5c4080",
+              backgroundColor: "#5B2C6F",
               borderColor: "transparent",
               borderWidth: 0,
               borderRadius: 10,
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
+    flexDirection: "column",
   },
   headerText: {
     fontSize: 18,

@@ -33,8 +33,20 @@ export const registerUser = async (mail, dni, setResponseCode) => {
 
 export const forgotPassword = async (mail) => {
   try {
-    const response = await api.post(`/api/person/forgotPassword?email=${mail}`);
+    await api.post(`/api/person/forgotPassword?email=${mail}`);
   } catch (error) {
     console.error("Error:", error);
+  }
+};
+
+export const changePassword = async (access, newPassword) => {
+  try {
+    const response = await api.put("/api/person/changePassword", {
+      access: access,
+      password: newPassword,
+    });
+    return response.status;
+  } catch (error) {
+    return response.status;
   }
 };
