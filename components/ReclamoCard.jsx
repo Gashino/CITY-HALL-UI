@@ -26,7 +26,13 @@ export default CardReclamo = ({ reclamo }) => {
     <Pressable>
       <View style={styles.container}>
         <View style={styles.card}>
-          <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "center",
+            }}
+          >
             <Image source={img} style={styles.image}></Image>
             <View style={styles.details}>
               <View style={styles.headerMain}>
