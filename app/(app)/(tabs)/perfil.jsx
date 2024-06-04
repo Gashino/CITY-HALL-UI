@@ -1,14 +1,37 @@
 import React from "react";
-import { View, StyleSheet, TextInput, Pressable } from "react-native";
+import { View, StyleSheet, TextInput, Pressable, Alert } from "react-native";
 import { useAuth } from "../../../context/auth";
 import { Icon, Image, Text } from "@rneui/base";
 import { Button } from "@rneui/themed";
 import { Ionicons } from "@expo/vector-icons";
+import { changePassword } from "../../../services/userService";
+import { router } from "expo-router";
 
 const urlPhoto = require("../../../assets/images/profileAvatar.png");
 
 const PerfilPage = () => {
+  const [newPassword, setNewPassword] = React.useState("");
+  const [repeatPassword, setRepeatPassword] = React.useState("");
   const { user } = useAuth();
+
+  const handleNewPassword = async () => {
+    if (newPassword === repeatPassword && newPassword !== "") {
+      const response = await changePassword(user.email, newPassword);
+      if (response === 200) {
+        Alert.alert("Éxito", "Clave actualizada correctamente");
+        setNewPassword("");
+        setRepeatPassword("");
+      } else {
+        Alert.alert("Error", "No se pudo actualizar la clave");
+      }
+    } else {
+      Alert.alert("Error", "Las claves no coinciden o están vacías");
+    }
+  };
+
+  const handleNotificaciones = () => {
+    router.navigate("perfil/modalNotificaciones");
+  };
 
   return (
     <View style={styles.container}>
@@ -58,10 +81,14 @@ const PerfilPage = () => {
             }}
           >
             <TextInput
+              value={newPassword}
               style={styles.input}
               placeholder="Escribir..."
               placeholderTextColor={"white"}
               secureTextEntry={true}
+              onChangeText={(text) => {
+                setNewPassword(text);
+              }}
             ></TextInput>
           </View>
         </View>
@@ -83,10 +110,14 @@ const PerfilPage = () => {
             }}
           >
             <TextInput
+              value={repeatPassword}
               style={styles.input}
               placeholder="Escribir nuevamente..."
               placeholderTextColor={"white"}
               secureTextEntry={true}
+              onChangeText={(text) => {
+                setRepeatPassword(text);
+              }}
             ></TextInput>
           </View>
         </View>
@@ -100,6 +131,7 @@ const PerfilPage = () => {
               width: 110,
               marginTop: 13,
             }}
+            onPress={handleNewPassword}
           ></Button>
         </View>
       </View>
@@ -125,7 +157,10 @@ const PerfilPage = () => {
         ></Button>
       </View>
       <View style={{ marginTop: 10, padding: 20, marginBottom: 5 }}>
-        <Pressable style={{ flexDirection: "row", justifyContent: "center" }}>
+        <Pressable
+          style={{ flexDirection: "row", justifyContent: "center" }}
+          onPress={handleNotificaciones}
+        >
           <Text style={{ fontSize: 20, fontWeight: "600", marginRight: 10 }}>
             Notificaciones
           </Text>
