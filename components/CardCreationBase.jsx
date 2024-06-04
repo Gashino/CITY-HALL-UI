@@ -15,7 +15,7 @@ export default CreateCardBase = ({ title, children, handler }) => {
           onPress={handler}
           title="Enviar"
           style={styles.button}
-          color={"black"}
+          color={"#641E16"}
           buttonStyle={{
             borderRadius: 10,
             width: 160,
