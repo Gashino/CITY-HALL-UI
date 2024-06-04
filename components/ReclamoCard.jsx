@@ -9,15 +9,15 @@ const img = require("../assets/images/gotera.png");
 const getColorByStatus = (status) => {
   switch (status) {
     case "CERRADO":
-      return "red";
+      return "#E74C3C";
     case "EN_PROCESO":
-      return "blue";
+      return "#5DADE2";
     case "RESUELTO":
-      return "green";
+      return "#58D68D";
     case "PENDIENTE":
-      return "#bf914b";
+      return "#F5B041";
     default:
-      return "grey";
+      return "#85929E";
   }
 };
 
@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
     width: "30%",
     height: 140,
     borderRadius: 15,
-    borderColor: "#2d2033",
     borderWidth: 3,
+    borderColor: "#D5D8DC",
   },
   details: {
     height: "100%",
@@ -108,9 +108,9 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   descripcion: {
-    padding: 3,
+    padding: 5,
     borderColor: "black",
-    borderWidth: 0.5,
+    borderWidth: 0.2,
     borderRadius: 10,
     minHeight: 70,
     maxHeight: 70,
