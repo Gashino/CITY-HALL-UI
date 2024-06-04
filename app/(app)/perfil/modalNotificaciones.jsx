@@ -1,8 +1,11 @@
 import { View } from "react-native";
 import { Text } from "@rneui/base";
 import { router } from "expo-router";
+import { Link } from "@react-navigation/native";
 
 export default function NotificacionesScreen() {
+  const isPresented = router.canGoBack();
+
   return (
     <View
       style={{
@@ -30,6 +33,7 @@ export default function NotificacionesScreen() {
         <Text style={{ flex: 1, textAlign: "center" }}>Notificaciones</Text>
         <Text style={{ opacity: 0 }}>Placeholder</Text>
       </View>
+      {!isPresented && <Link href="../">Dismiss</Link>}
     </View>
   );
 }

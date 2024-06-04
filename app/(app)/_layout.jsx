@@ -8,6 +8,11 @@ const AppLayout = () => {
     >
       <Stack.Screen name="(tabs)"></Stack.Screen>
       <Stack.Screen name="(logintabs)"></Stack.Screen>
+
+      <Stack.Screen
+        name="perfil/modalNotificaciones"
+        options={{ presentation: "modal", headerTitle: "Notificaciones" }}
+      ></Stack.Screen>
     </Stack>
   );
 };
