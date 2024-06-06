@@ -17,9 +17,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    router.replace("/inicio");
     const result = await loginUser(accces, password);
     if (result !== null) {
+      router.replace("/inicio");
     } else {
       Alert.alert("Error", "Usuario o contraseña incorrectos");
     }
