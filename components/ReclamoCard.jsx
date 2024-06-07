@@ -36,7 +36,7 @@ export default CardReclamo = ({ reclamo }) => {
             <Image source={img} style={styles.image}></Image>
             <View style={styles.details}>
               <View style={styles.headerMain}>
-                <Text style={styles.headerText}>Reclamo # {reclamo.id}</Text>
+                <Text style={styles.headerText}>ID #{reclamo.id}</Text>
                 <Chip
                   containerStyle={styles.chip}
                   color={getColorByStatus(reclamo.estado)}

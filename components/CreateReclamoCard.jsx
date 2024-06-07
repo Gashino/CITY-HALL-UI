@@ -99,7 +99,7 @@ const CreationReclamoCard = () => {
             iconContainerStyle={{ marginRight: 10 }}
             titleStyle={{ fontWeight: "600" }}
             buttonStyle={{
-              backgroundColor: "#5B2C6F",
+              backgroundColor: "#1d3552",
               borderColor: "transparent",
               borderWidth: 0,
               borderRadius: 10,

@@ -41,7 +41,7 @@ export default CardDenuncia = ({ denuncia }) => {
             <View style={styles.details}>
               <View style={styles.headerMain}>
                 <Text style={styles.headerText}>
-                  Denuncia # {denuncia.idComplaint}
+                  ID #{denuncia.idComplaint}
                 </Text>
                 <Chip
                   color={getColorByStatus(denuncia.status)}
