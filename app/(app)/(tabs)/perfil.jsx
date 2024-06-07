@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     padding: 8,
     justifyContent: "space-between",
+    backgroundColor: "#b6c2d1",
   },
   card: {
     marginTop: 5,
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
     color: "white",
     padding: 10,
     borderRadius: 8,
-    backgroundColor: "#bdbdbd",
+    backgroundColor: "#dedfe0",
     opacity: 1,
     marginTop: 2,
   },

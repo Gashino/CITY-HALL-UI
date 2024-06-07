@@ -83,7 +83,11 @@ export default CardDenuncia = ({ denuncia }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { justifyContent: "center", alignItems: "center" },
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
   card: {
     height: 160,
     width: "90%",
@@ -98,7 +102,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   image: {
     width: "30%",
