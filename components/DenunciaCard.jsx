@@ -1,10 +1,7 @@
-import { Divider } from "@rneui/base";
-import { Chip } from "@rneui/themed";
-import { Link } from "expo-router";
+import { Chip } from "@rneui/base";
 import React from "react";
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
-
-const img = require("../assets/images/gotera.png");
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import { useAuth } from "../context/auth";
 
 const getColorByStatus = (status) => {
   switch (status) {
@@ -21,7 +18,15 @@ const getColorByStatus = (status) => {
   }
 };
 
-export default CardReclamo = ({ reclamo }) => {
+export default CardDenuncia = ({ denuncia }) => {
+  const { user } = useAuth();
+
+  const getColorDniDenounced = (dni) => {
+    return dni === user.document ? "red" : "black";
+  };
+
+  const color = getColorDniDenounced(denuncia.documentDenounced);
+
   return (
     <Pressable>
       <View style={styles.container}>
@@ -33,21 +38,38 @@ export default CardReclamo = ({ reclamo }) => {
               justifyContent: "center",
             }}
           >
-            <Image source={img} style={styles.image}></Image>
             <View style={styles.details}>
               <View style={styles.headerMain}>
-                <Text style={styles.headerText}>ID #{reclamo.id}</Text>
+                <Text style={styles.headerText}>
+                  ID #{denuncia.idComplaint}
+                </Text>
                 <Chip
+                  color={getColorByStatus(denuncia.status)}
                   containerStyle={styles.chip}
-                  color={getColorByStatus(reclamo.estado)}
                 >
-                  {reclamo.estado}
+                  {denuncia.status}
                 </Chip>
               </View>
               <View style={styles.descripcion}>
-                <Text>{reclamo.descripcion}</Text>
+                <Text>{denuncia.description}</Text>
               </View>
               <View style={styles.moreInfo}>
+                {denuncia.siteStreet ? (
+                  <Text style={{ fontWeight: "500" }}>
+                    Sitio denunciado: {denuncia.siteStreet}{" "}
+                    {denuncia.siteNumber}
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      fontWeight: "500",
+                      color: color,
+                    }}
+                  >
+                    Denunciado: {denuncia.documentDenounced}{" "}
+                    {color === "red" ? " (Tú)" : ""}
+                  </Text>
+                )}
                 <Text style={{ marginTop: 2, color: "purple" }}>
                   +Información
                 </Text>
@@ -61,14 +83,18 @@ export default CardReclamo = ({ reclamo }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { justifyContent: "center", alignItems: "center", marginTop: 10 },
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
   card: {
     height: 160,
     width: "90%",
     backgroundColor: "white",
     borderRadius: 15,
     elevation: 10,
-    padding: 8,
+    padding: 15,
     shadowColor: "#000",
     shadowOffset: { width: 1, height: 3 },
     shadowOpacity: 0.2,
@@ -78,16 +104,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
-  image: {
-    width: "30%",
-    height: 140,
-    borderRadius: 15,
-    borderWidth: 3,
-    borderColor: "#D5D8DC",
-  },
   details: {
     height: "100%",
-    width: "70%",
+    width: "90%",
     padding: 5,
     flexDirection: "column",
   },
@@ -110,7 +129,7 @@ const styles = StyleSheet.create({
   descripcion: {
     padding: 5,
     borderColor: "black",
-    borderWidth: 0.2,
+    borderWidth: 0.3,
     borderRadius: 10,
     minHeight: 70,
     maxHeight: 70,
@@ -118,7 +137,7 @@ const styles = StyleSheet.create({
   },
   moreInfo: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     height: 20,
     alignItems: "center",
     marginTop: 5,

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CreateCardBase from "./CardCreationBase";
 import {
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -40,6 +39,11 @@ const CreationReclamoCard = () => {
   }, []);
 
   async function handleSubmit() {
+    if (!sitio || !desperfecto || descripcion === "") {
+      Alert.alert("Error", "Por favor complete todos los campos");
+      return;
+    }
+
     const respuesta = await publicarReclamo(
       user.document,
       sitio,
@@ -48,6 +52,7 @@ const CreationReclamoCard = () => {
     );
     if (respuesta === 200) {
       Alert.alert("Confirmación", "Reclamo creado con éxito");
+      setDescripcion("");
     } else {
       Alert.alert("Error", "Error al crear el reclamo");
     }
@@ -76,6 +81,7 @@ const CreationReclamoCard = () => {
           save="key"
         />
         <Divider style={styles.select} inset={true} insetType="middle" />
+        <View style={{ marginTop: 10 }} />
         <Text style={styles.headerText}>Describa lo sucedido</Text>
         <TextInput
           style={styles.input}
@@ -85,6 +91,7 @@ const CreationReclamoCard = () => {
           onChangeText={(text) => {
             setDescripcion(text);
           }}
+          value={descripcion}
         />
         <Divider style={styles.select} inset={true} insetType="middle" />
         <View style={styles.cameraContainer}>
@@ -99,7 +106,7 @@ const CreationReclamoCard = () => {
             iconContainerStyle={{ marginRight: 10 }}
             titleStyle={{ fontWeight: "600" }}
             buttonStyle={{
-              backgroundColor: "#5B2C6F",
+              backgroundColor: "#1d3552",
               borderColor: "transparent",
               borderWidth: 0,
               borderRadius: 10,

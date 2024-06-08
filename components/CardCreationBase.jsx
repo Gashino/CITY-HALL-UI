@@ -6,7 +6,15 @@ export default CreateCardBase = ({ title, children, handler }) => {
     <View style={styles.container}>
       <View style={styles.card}>
         <View style={styles.header}>
-          <Text style={{ fontWeight: "bold", fontSize: 18 }}>{title}</Text>
+          <Text
+            style={{
+              fontWeight: "semibold",
+              fontSize: 18,
+              color: "white",
+            }}
+          >
+            {title}
+          </Text>
         </View>
         {children}
       </View>
@@ -15,10 +23,10 @@ export default CreateCardBase = ({ title, children, handler }) => {
           onPress={handler}
           title="Enviar"
           style={styles.button}
-          color={"#641E16"}
+          color={"#73182a"}
           buttonStyle={{
             borderRadius: 10,
-            width: 160,
+            width: 270,
           }}
           iconRight
           icon={
@@ -61,12 +69,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "center",
+    backgroundColor: "#1d3552",
+    borderRadius: 10,
+    width: "100%",
   },
   buttonContainer: {
-    marginTop: 35,
+    padding: 30,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
   },
 });
