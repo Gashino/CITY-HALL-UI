@@ -76,6 +76,7 @@ const CreationReclamoCard = () => {
           save="key"
         />
         <Divider style={styles.select} inset={true} insetType="middle" />
+        <View style={{ marginTop: 10 }} />
         <Text style={styles.headerText}>Describa lo sucedido</Text>
         <TextInput
           style={styles.input}
