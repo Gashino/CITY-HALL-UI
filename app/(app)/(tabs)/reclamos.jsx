@@ -10,10 +10,9 @@ const ReclamosPage = () => {
   const { user } = useAuth();
   const [reclamos, setReclamos] = useState([]);
   const [checked, setChecked] = useState(false);
-  const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
-    if (refresh) return;
     getReclamos().then((data) => {
       let reclamosArray = data.map((reclamo) => {
         return {
@@ -31,6 +30,7 @@ const ReclamosPage = () => {
           (reclamo) => reclamo.userdni === user.document
         );
       }
+      setRefresh(false);
       setReclamos(reclamosArray);
     });
   }, [checked, refresh]);
@@ -39,7 +39,7 @@ const ReclamosPage = () => {
     setRefresh(true);
     setTimeout(() => {
       setRefresh(false);
-    }, 1000);
+    }, 3500);
   }, []);
 
   return (

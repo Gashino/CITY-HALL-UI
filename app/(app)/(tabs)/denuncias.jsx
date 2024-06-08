@@ -9,7 +9,7 @@ import { useEffect } from "react";
 const DenunciasPage = () => {
   const { user } = useAuth();
   const [denuncias, setDenuncias] = useState([]);
-  const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
     getDenuncias(user.document).then((data) => {
@@ -31,6 +31,7 @@ const DenunciasPage = () => {
         }
         return 0;
       });
+      setRefresh(false);
       setDenuncias(denunciaArray);
     });
   }, [refresh]);
@@ -39,7 +40,7 @@ const DenunciasPage = () => {
     setRefresh(true);
     setTimeout(() => {
       setRefresh(false);
-    }, 1000);
+    }, 3500);
   }, []);
 
   return (
