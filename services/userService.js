@@ -27,7 +27,7 @@ export const registerUser = async (mail, dni, setResponseCode) => {
     }
   } catch (error) {
     console.error("Error:", error);
-    setResponseCode(400);
+    setResponseCode(error.response.status);
   }
 };
 

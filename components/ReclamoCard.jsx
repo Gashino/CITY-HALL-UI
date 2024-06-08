@@ -1,11 +1,18 @@
-import { Divider } from "@rneui/base";
-import { Chip } from "@rneui/themed";
-import { Link } from "expo-router";
-import React from "react";
+import { Chip, Dialog } from "@rneui/themed";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 
-const img = require("../assets/images/gotera.png");
+const img1 = require("../assets/images/gotera.png");
+const img2 = require("../assets/images/portonroto.png");
+const img3 = require("../assets/images/canillarota.png");
+const img4 = require("../assets/images/arbolcaido.png");
+const img5 = require("../assets/images/candadoroto.jpg");
+const images = [img1, img2, img3, img4, img5];
 
+function getRandomImage() {
+  const randomIndex = Math.floor(Math.random() * images.length);
+  return images[randomIndex];
+}
 const getColorByStatus = (status) => {
   switch (status) {
     case "CERRADO":
@@ -16,14 +23,20 @@ const getColorByStatus = (status) => {
       return "#58D68D";
     case "PENDIENTE":
       return "#F5B041";
+    case "RECHAZADO":
+      return "#c47237";
     default:
       return "#85929E";
   }
 };
 
 export default CardReclamo = ({ reclamo }) => {
+  const [visible1, setVisible1] = useState(false);
+  toggleDialog = () => {
+    setVisible1(!visible1);
+  };
   return (
-    <Pressable>
+    <Pressable onPress={toggleDialog}>
       <View style={styles.container}>
         <View style={styles.card}>
           <View
@@ -33,7 +46,7 @@ export default CardReclamo = ({ reclamo }) => {
               justifyContent: "center",
             }}
           >
-            <Image source={img} style={styles.image}></Image>
+            <Image source={getRandomImage()} style={styles.image}></Image>
             <View style={styles.details}>
               <View style={styles.headerMain}>
                 <Text style={styles.headerText}>ID #{reclamo.id}</Text>
@@ -56,6 +69,29 @@ export default CardReclamo = ({ reclamo }) => {
           </View>
         </View>
       </View>
+      <Dialog
+        isVisible={visible1}
+        onBackdropPress={toggleDialog}
+        overlayStyle={{
+          ...styles.dialog,
+          backgroundColor: getColorByStatus(reclamo.estado),
+        }}
+        animationType="slide"
+      >
+        <Dialog.Title
+          titleStyle={{ textAlign: "center" }}
+          title={<Text>Reclamo #{reclamo.id} </Text>}
+        />
+        <Text
+          style={{
+            textAlign: "center",
+            paddingRight: 10,
+            paddingLeft: 10,
+          }}
+        >
+          Toda la informacion del reclamo con fotos...
+        </Text>
+      </Dialog>
     </Pressable>
   );
 };
@@ -122,5 +158,9 @@ const styles = StyleSheet.create({
     height: 20,
     alignItems: "center",
     marginTop: 5,
+  },
+  dialog: {
+    borderRadius: 15,
+    padding: 10,
   },
 });

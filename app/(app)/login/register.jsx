@@ -17,15 +17,20 @@ const RegisterPage = () => {
   const [responseCode, setResponseCode] = useState(0);
 
   const handleSubmit = () => {
+    setResponseCode(0);
     registerUser(email, dni, setResponseCode);
   };
 
   useEffect(() => {
+    if (responseCode === 0) return;
     if (responseCode === 201) {
       router.navigate({
         pathname: "login/confirmationRegister",
         params: { email: email },
       });
+    } else if (responseCode === 409) {
+      setResponseCode(0);
+      Alert.alert("Error", "Usuario ya registrado");
     } else if (responseCode === 400) {
       Alert.alert("Error", "No es un vecino. Contacte a la municipalidad");
     }

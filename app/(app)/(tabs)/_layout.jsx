@@ -10,15 +10,19 @@ const AppTabs = () => {
     <AuthProvider>
       <Tabs
         screenOptions={{
+          tabBarShowLabel: false,
           headerShown: false,
-          tabBarStyle: { paddingBottom: 10 },
+          tabBarStyle: {
+            padding: 15,
+            minHeight: 50,
+          },
         }}
       >
         <Tabs.Screen
           name="inicio"
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home-outline" color={color} size={32}></Ionicons>
+              <Ionicons name="home-outline" color={color} size={35}></Ionicons>
             ),
             tabBarLabel: ({ focused, color }) => (
               <Text
@@ -37,7 +41,7 @@ const AppTabs = () => {
           name="reclamos"
           options={{
             tabBarIcon: ({ color }) => (
-              <Ionicons name="build-outline" color={color} size={32}></Ionicons>
+              <Ionicons name="build-outline" color={color} size={35}></Ionicons>
             ),
             tabBarLabel: ({ focused, color }) => (
               <Text
@@ -71,7 +75,7 @@ const AppTabs = () => {
               <Ionicons
                 name="alert-circle-outline"
                 color={color}
-                size={32}
+                size={35}
               ></Ionicons>
             ),
             tabBarLabel: ({ focused, color }) => (
@@ -94,7 +98,7 @@ const AppTabs = () => {
               <Ionicons
                 name="person-outline"
                 color={color}
-                size={32}
+                size={35}
               ></Ionicons>
             ),
             tabBarLabel: ({ focused, color }) => (
