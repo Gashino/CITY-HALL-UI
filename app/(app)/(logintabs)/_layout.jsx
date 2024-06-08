@@ -7,8 +7,12 @@ const TabLogin = () => {
   return (
     <Tabs
       screenOptions={{
+        tabBarShowLabel: false,
         headerShown: false,
-        tabBarStyle: { paddingBottom: 10 },
+        tabBarStyle: {
+          padding: 15,
+          minHeight: 50,
+        },
       }}
     >
       <Tabs.Screen
@@ -16,12 +20,17 @@ const TabLogin = () => {
         options={{
           title: "Servicios",
           tabBarLabel: ({ focused, color }) => (
-            <Text style={{ fontWeight: focused ? "bold" : "normal", color }}>
+            <Text
+              style={{
+                fontWeight: focused ? "bold" : "normal",
+                color,
+              }}
+            >
               Servicios
             </Text>
           ),
           tabBarIcon: ({ color }) => (
-            <Ionicons name="bag-outline" color={color} size={32} />
+            <Ionicons name="bag-outline" color={color} size={35} />
           ),
         }}
       />
@@ -30,12 +39,18 @@ const TabLogin = () => {
         options={{
           title: "Login",
           tabBarLabel: ({ focused, color }) => (
-            <Text style={{ fontWeight: focused ? "bold" : "normal", color }}>
+            <Text
+              style={{
+                fontWeight: focused ? "bold" : "normal",
+                color,
+                marginLeft: 10,
+              }}
+            >
               Login
             </Text>
           ),
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-circle-outline" color={color} size={32} />
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="person-circle-outline" color={color} size={35} />
           ),
         }}
       />
