@@ -21,13 +21,18 @@ const Login = () => {
     if (result !== null) {
       router.replace("/inicio");
     } else {
-      Alert.alert("Error", "Usuario o contraseña incorrectos");
+      Alert.alert("Error", "Usuario incorrecto o inactivo");
     }
   };
 
   return (
     <View style={styles.container}>
-      <Image source={require("../../../assets/logo.png")} style={styles.logo} />
+      <View>
+        <Image
+          source={require("../../../assets/appLogo.png")}
+          style={styles.logo}
+        />
+      </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>EMAIL</Text>
         <TextInput
@@ -51,23 +56,27 @@ const Login = () => {
             setPassword(text);
           }}
         />
-        <TouchableOpacity
-          onPress={() => {
-            router.navigate("login/forgotpassword");
-          }}
-        >
-          <Text style={styles.forgotPassword}>Olvidé mi contraseña</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            router.navigate("login/register");
-          }}
-        >
-          <Text style={styles.registrarme}>-Registrarse-</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>INICIAR SESIÓN</Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              router.navigate("login/forgotpassword");
+            }}
+          >
+            <Text style={styles.forgotPassword}>Olvidé mi contraseña</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              router.navigate("login/register");
+            }}
+          >
+            <Text style={styles.registrarme}>-Registrarse-</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ paddingTop: 50 }}>
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>INICIAR SESIÓN</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -76,19 +85,18 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     paddingHorizontal: 20,
     backgroundColor: "#eff0ed",
   },
   logo: {
-    width: 240,
+    width: 400,
     height: 240,
-    marginBottom: 40,
   },
   inputContainer: {
     width: "100%",
-    height: 400,
+    paddingTop: 30,
   },
   label: {
     marginBottom: 5,
@@ -115,7 +123,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
-    marginTop: 80,
+    width: "50%",
+    alignSelf: "center",
   },
   buttonText: {
     color: "#fff",
@@ -124,7 +133,6 @@ const styles = StyleSheet.create({
   registrarme: {
     color: "#007BFF",
     textAlign: "center",
-    marginBottom: 30,
     fontWeight: "bold",
   },
 });

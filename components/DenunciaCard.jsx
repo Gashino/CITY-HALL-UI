@@ -1,5 +1,5 @@
-import { Chip } from "@rneui/base";
-import React from "react";
+import { Chip, Dialog } from "@rneui/base";
+import React, { useState } from "react";
 import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import { useAuth } from "../context/auth";
 
@@ -20,6 +20,11 @@ const getColorByStatus = (status) => {
 
 export default CardDenuncia = ({ denuncia }) => {
   const { user } = useAuth();
+  const [visible1, setVisible1] = useState(false);
+
+  toggleDialog = () => {
+    setVisible1(!visible1);
+  };
 
   const getColorDniDenounced = (dni) => {
     return dni === user.document ? "red" : "black";
@@ -28,7 +33,7 @@ export default CardDenuncia = ({ denuncia }) => {
   const color = getColorDniDenounced(denuncia.documentDenounced);
 
   return (
-    <Pressable>
+    <Pressable onPress={toggleDialog}>
       <View style={styles.container}>
         <View style={styles.card}>
           <View
@@ -78,6 +83,29 @@ export default CardDenuncia = ({ denuncia }) => {
           </View>
         </View>
       </View>
+      <Dialog
+        isVisible={visible1}
+        onBackdropPress={toggleDialog}
+        overlayStyle={{
+          ...styles.dialog,
+          backgroundColor: getColorByStatus(denuncia.status),
+        }}
+        animationType="slide"
+      >
+        <Dialog.Title
+          titleStyle={{ textAlign: "center" }}
+          title={<Text>Denuncia #{denuncia.idComplaint} </Text>}
+        />
+        <Text
+          style={{
+            textAlign: "center",
+            paddingRight: 10,
+            paddingLeft: 10,
+          }}
+        >
+          Toda la informacion de la denuncia con fotos...
+        </Text>
+      </Dialog>
     </Pressable>
   );
 };
@@ -141,5 +169,9 @@ const styles = StyleSheet.create({
     height: 20,
     alignItems: "center",
     marginTop: 5,
+  },
+  dialog: {
+    borderRadius: 15,
+    padding: 10,
   },
 });
