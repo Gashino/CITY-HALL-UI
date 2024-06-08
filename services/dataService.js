@@ -19,3 +19,13 @@ export const getDesperfectos = async () => {
     return "";
   }
 };
+
+export const getVecinos = async () => {
+  try {
+    const response = await api.get("/api/data/neighbors");
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    return "";
+  }
+};

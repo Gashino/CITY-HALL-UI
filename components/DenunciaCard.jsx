@@ -47,11 +47,11 @@ export default CardDenuncia = ({ denuncia }) => {
                   color={getColorByStatus(denuncia.status)}
                   containerStyle={styles.chip}
                 >
-                  dasdads
+                  {denuncia.status}
                 </Chip>
               </View>
               <View style={styles.descripcion}>
-                <Text>dadasd</Text>
+                <Text>{denuncia.description}</Text>
               </View>
               <View style={styles.moreInfo}>
                 {denuncia.siteStreet ? (
