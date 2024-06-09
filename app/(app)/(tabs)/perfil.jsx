@@ -43,7 +43,11 @@ const PerfilPage = () => {
           }}
         >
           <Image source={urlPhoto} style={styles.image}></Image>
-          <Text style={styles.headerSaludo}>Hola, {user.name} !</Text>
+          <View style={styles.viewSaludo}>
+            <Text style={{ fontWeight: "bold", color: "white", fontSize: 20 }}>
+              Hola, {user.name} !
+            </Text>
+          </View>
         </View>
         <View
           style={{
@@ -216,15 +220,12 @@ const styles = StyleSheet.create({
     opacity: 1,
     marginTop: 2,
   },
-  headerSaludo: {
+  viewSaludo: {
     backgroundColor: "#4624b5",
     padding: 4,
-    borderRadius: 14,
+    borderRadius: 12,
     paddingLeft: 10,
     paddingRight: 10,
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "white",
     marginTop: 2,
   },
   image: {
