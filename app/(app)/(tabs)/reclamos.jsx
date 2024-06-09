@@ -9,6 +9,7 @@ import { RefreshControl } from "react-native";
 const ReclamosPage = () => {
   const { user } = useAuth();
   const [reclamos, setReclamos] = useState([]);
+  const [reclamosFiltrados, setReclamosFiltrados] = useState([]);
   const [checked, setChecked] = useState(false);
   const [refresh, setRefresh] = useState(true);
 
@@ -24,16 +25,14 @@ const ReclamosPage = () => {
           userdni: reclamo.user.document,
         };
       });
-
-      if (checked) {
-        reclamosArray = reclamosArray.filter(
-          (reclamo) => reclamo.userdni === user.document
-        );
-      }
-      setRefresh(false);
       setReclamos(reclamosArray);
+      const reclamosFiltrados = reclamosArray.filter(
+        (reclamo) => reclamo.userdni === user.document
+      );
+      setReclamosFiltrados(reclamosFiltrados);
+      setRefresh(false);
     });
-  }, [checked, refresh]);
+  }, [refresh]);
 
   const onRefresh = useCallback(() => {
     setRefresh(true);
@@ -67,14 +66,15 @@ const ReclamosPage = () => {
         }
       >
         {!refresh ? (
-          reclamos.length === 0 ? (
+          reclamos.length === 0 ||
+          (checked && reclamosFiltrados.length === 0) ? (
             <View style={{ flex: 1, alignItems: "center", paddingTop: 350 }}>
               <Text style={{ fontWeight: "bold" }}>
                 No hay reclamos para mostrar.
               </Text>
             </View>
           ) : (
-            reclamos.map((reclamo) => (
+            (checked ? reclamosFiltrados : reclamos).map((reclamo) => (
               <CardReclamo key={reclamo.id} reclamo={reclamo} />
             ))
           )
