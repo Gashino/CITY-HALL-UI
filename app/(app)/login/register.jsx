@@ -10,15 +10,17 @@ import {
   Alert,
 } from "react-native";
 import { registerUser } from "../../../services/userService";
+import { usePushNotifications } from "../../../context/usePushNotifications";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [dni, setDni] = useState("");
   const [responseCode, setResponseCode] = useState(0);
+  const { expoPushToken, notification } = usePushNotifications();
 
   const handleSubmit = () => {
     setResponseCode(0);
-    registerUser(email, dni, setResponseCode);
+    registerUser(email, dni, setResponseCode, expoPushToken.data.toString());
   };
 
   useEffect(() => {
