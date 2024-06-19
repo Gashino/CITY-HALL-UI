@@ -17,10 +17,10 @@ export const loginUser = async (access, password) => {
   }
 };
 
-export const registerUser = async (mail, dni, setResponseCode) => {
+export const registerUser = async (mail, dni, setResponseCode, token) => {
   try {
     const response = await api.post(
-      `/api/person/register?dni=${dni}&email=${mail}`
+      `/api/person/register?dni=${dni}&email=${mail}&tokenPush=${token}`
     );
     if (response.status === 201) {
       setResponseCode(201);
