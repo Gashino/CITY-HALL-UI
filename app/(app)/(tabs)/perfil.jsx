@@ -1,18 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TextInput, Pressable, Alert } from "react-native";
 import { useAuth } from "../../../context/auth";
 import { Icon, Image, Text } from "@rneui/base";
 import { Button } from "@rneui/themed";
 import { Ionicons } from "@expo/vector-icons";
 import { changePassword } from "../../../services/userService";
+import { usePushNotifications } from "../../../context/usePushNotifications";
+import { getNotifications } from "../../../services/dataService";
 import { router } from "expo-router";
 
 const urlPhoto = require("../../../assets/images/profileAvatar.png");
 
 const PerfilPage = () => {
-  const [newPassword, setNewPassword] = React.useState("");
-  const [repeatPassword, setRepeatPassword] = React.useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
   const { user } = useAuth();
+  const { expoPushToken } = usePushNotifications();
+  const [notifications, setNotifications] = useState(null);
+
+  useEffect(() => {
+    if (expoPushToken === undefined || expoPushToken === null) return;
+    const setearNotificaciones = async () => {
+      const token = expoPushToken.data.toString();
+      const data = await getNotifications(token);
+      setNotifications(data);
+    };
+
+    setearNotificaciones();
+  }, [expoPushToken]);
 
   const handleNewPassword = async () => {
     if (newPassword === repeatPassword && newPassword !== "") {
@@ -30,7 +45,10 @@ const PerfilPage = () => {
   };
 
   const handleNotificaciones = () => {
-    router.navigate("perfil/modalNotificaciones");
+    router.navigate({
+      pathname: "perfil/modalNotificaciones",
+      params: { notificaciones: JSON.stringify(notifications) },
+    });
   };
 
   return (
@@ -139,14 +157,21 @@ const PerfilPage = () => {
           ></Button>
         </View>
       </View>
-      <View style={{ padding: 20, marginTop: 5 }}>
+      <View
+        style={{
+          padding: 20,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
         <Button
           color={"#4624b5"}
           size="lg"
           title={"Crear Servicio"}
           style={{
-            width: 200,
-            marginTop: 13,
+            width: 180,
           }}
           radius={"md"}
           icon={
@@ -159,18 +184,17 @@ const PerfilPage = () => {
           }
           iconRight
         ></Button>
-      </View>
-      <View style={{ marginTop: 10, padding: 20, marginBottom: 5 }}>
         <Pressable
           style={{ flexDirection: "row", justifyContent: "center" }}
           onPress={handleNotificaciones}
         >
-          <Text style={{ fontSize: 20, fontWeight: "600", marginRight: 10 }}>
+          <Text style={{ fontSize: 20, fontWeight: "600" }}>
             Notificaciones
           </Text>
           <Ionicons name="notifications-outline" size={25} color="black" />
         </Pressable>
       </View>
+      <View style={{ marginTop: 10, padding: 20, marginBottom: 5 }}></View>
     </View>
   );
 };
