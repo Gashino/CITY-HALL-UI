@@ -29,3 +29,13 @@ export const getVecinos = async () => {
     return "";
   }
 };
+
+export const getNotifications = async (token) => {
+  try {
+    const response = await api.get(`/api/data/notifications/${token}`);
+    return response.data;
+  } catch (e) {
+    console.error("Error:", error);
+    return [];
+  }
+};
