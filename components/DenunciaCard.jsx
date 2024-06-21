@@ -61,8 +61,7 @@ export default CardDenuncia = ({ denuncia }) => {
               <View style={styles.moreInfo}>
                 {denuncia.siteStreet ? (
                   <Text style={{ fontWeight: "500" }}>
-                    Sitio denunciado: {denuncia.siteStreet}{" "}
-                    {denuncia.siteNumber}
+                    Sitio: {denuncia.siteStreet} {denuncia.siteNumber}
                   </Text>
                 ) : (
                   <Text
