@@ -34,7 +34,6 @@ const Servicios = () => {
       });
       setRubrosList(rubroArray);
     });
-
     setRefresh(false);
   }, [refresh]);
 
