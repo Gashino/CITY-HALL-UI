@@ -51,6 +51,28 @@ const PerfilPage = () => {
     });
   };
 
+  const crearBotonServiciosOption = () =>
+    Alert.alert("Crear Servicio", "¿Qué tipo de servicio desea crear?", [
+      {
+        text: "Normal",
+        onPress: () =>
+          router.navigate({
+            pathname: "servicioCreation",
+            params: { tipo: "normal" },
+          }),
+        style: "default",
+      },
+      {
+        text: "Profesional",
+        onPress: () =>
+          router.navigate({
+            pathname: "servicioCreation",
+            params: { tipo: "profesional" },
+          }),
+        style: "destructive",
+      },
+    ]);
+
   return (
     <View style={styles.container}>
       <View style={[{ height: 300 }, styles.card]}>
@@ -183,7 +205,8 @@ const PerfilPage = () => {
             />
           }
           iconRight
-        ></Button>
+          onPress={crearBotonServiciosOption}
+        />
         <Pressable
           style={{ flexDirection: "row", justifyContent: "center" }}
           onPress={handleNotificaciones}

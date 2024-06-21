@@ -35,6 +35,7 @@ const AppTabs = () => {
                 Inicio
               </Text>
             ),
+            tabBarActiveTintColor: "#1d3552",
           }}
         ></Tabs.Screen>
         <Tabs.Screen
@@ -54,6 +55,7 @@ const AppTabs = () => {
                 Reclamos
               </Text>
             ),
+            tabBarActiveTintColor: "#1d3552",
           }}
         ></Tabs.Screen>
         <Tabs.Screen
@@ -89,6 +91,7 @@ const AppTabs = () => {
                 Denuncias
               </Text>
             ),
+            tabBarActiveTintColor: "#1d3552",
           }}
         ></Tabs.Screen>
         <Tabs.Screen
@@ -112,6 +115,7 @@ const AppTabs = () => {
                 Perfil
               </Text>
             ),
+            tabBarActiveTintColor: "#1d3552",
           }}
         ></Tabs.Screen>
         <Tabs.Screen
@@ -122,6 +126,7 @@ const AppTabs = () => {
           name="reclamoCreation"
           options={{ href: null }}
         ></Tabs.Screen>
+        <Tabs.Screen name="servicioCreation" options={{ href: null }} />
       </Tabs>
     </AuthProvider>
   );
