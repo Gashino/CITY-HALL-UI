@@ -118,12 +118,18 @@ const InicioPage = () => {
               save="key"
               boxStyles={styles.selectList}
             />
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                paddingTop: 5,
+              }}
+            >
               <Switch
                 value={checked}
                 onValueChange={(value) => setChecked(value)}
               />
-              <Text style={{ fontSize: 12, fontWeight: "500" }}>
+              <Text style={{ fontSize: 12, fontWeight: "500", paddingLeft: 5 }}>
                 Mis servicios
               </Text>
             </View>
