@@ -28,7 +28,7 @@ const ProfesionalCard = ({ data, setData }) => {
       <Text style={styles.headerText}>Título del servicio</Text>
       <TextInput
         style={styles.input}
-        placeholder="Ingresar el titulo del servicio..."
+        placeholder="Ej. Better Call Saul"
         placeholderTextColor="black"
         onChangeText={(text) => {
           setData((prev) => ({ ...prev, title: text }));
@@ -99,7 +99,7 @@ const NormalCard = ({ data, setData }) => {
       <Text style={styles.headerText}>Título del servicio</Text>
       <TextInput
         style={styles.input}
-        placeholder="Ingresar el titulo del servicio..."
+        placeholder="Ej. Libros a domicilio"
         placeholderTextColor="black"
         onChangeText={(text) => {
           setData((prev) => ({ ...prev, title: text }));
