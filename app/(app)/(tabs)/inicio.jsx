@@ -109,7 +109,7 @@ const InicioPage = () => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
             <SelectList
-              placeholder="Seleccionar una categoria"
+              placeholder="Seleccionar una rubro"
               setSelected={(val) => {
                 setRubro(val);
                 setModalVisible(false);
