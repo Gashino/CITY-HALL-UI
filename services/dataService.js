@@ -39,3 +39,12 @@ export const getNotifications = async (token) => {
     return [];
   }
 };
+
+export const getRubros = async () => {
+  try {
+    const response = await api.get("/api/data/categories");
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};

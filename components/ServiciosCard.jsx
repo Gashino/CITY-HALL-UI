@@ -1,13 +1,127 @@
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 
-export default CardServicio = () => {
+const img1 = require("../assets/images/gotera.png");
+
+export default CardServicio = ({ servicio, rubro }) => {
+  const ProfesionalService = () => {
+    return (
+      <View style={[styles.card, styles.profesionalCard]}>
+        <View
+          style={{
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Image
+            source={img1}
+            style={styles.image}
+            resizeMode="stretch"
+          ></Image>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              paddingHorizontal: 5,
+            }}
+          >
+            <Text style={styles.headerTitle}>{servicio.title}</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Ionicons name="people-circle-outline" size={18}></Ionicons>
+              <Text style={styles.headerNombre}>
+                {servicio.name} {servicio.surname}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.profesionalContainer}>
+            <View style={styles.description}>
+              <Text>{servicio.description}</Text>
+            </View>
+            <View style={styles.infoProfesional}>
+              <Text style={{ fontSize: 11 }}>Horario</Text>
+              <Text style={{ fontSize: 10, fontWeight: "500" }}>
+                {servicio.hours}
+              </Text>
+              <View
+                style={{
+                  backgroundColor: "black",
+                  borderRadius: 12,
+                  width: "100%",
+                  padding: 2,
+                  marginLeft: 10,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingHorizontal: 5,
+                }}
+              >
+                <Ionicons
+                  name="pricetags-outline"
+                  color={"white"}
+                  style={{ marginRight: 5 }}
+                ></Ionicons>
+                <View style={{ width: "80%", alignItems: "center" }}>
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      color: "white",
+                    }}
+                  >
+                    {rubro}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <Ionicons
+            name="information-circle-outline"
+            style={{ alignSelf: "flex-start", paddingTop: 8 }}
+            size={20}
+          ></Ionicons>
+        </View>
+      </View>
+    );
+  };
+
+  const NormalService = () => {
+    return (
+      <View style={[styles.card, styles.normalCard]}>
+        <View
+          style={{
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Image
+            source={img1}
+            style={styles.image}
+            resizeMode="stretch"
+          ></Image>
+          <Text style={styles.headerTitle}>{servicio.title}</Text>
+          <View style={styles.description}>
+            <Text>{servicio.description}</Text>
+          </View>
+          <Ionicons
+            name="information-circle-outline"
+            style={{ alignSelf: "flex-start", paddingTop: 8 }}
+            size={20}
+          ></Ionicons>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <Pressable>
       <View style={styles.container}>
-        <View style={styles.card}>
-          <Text>SERVICIO EJEMPLO</Text>
-        </View>
+        {servicio.profesional ? ProfesionalService() : NormalService()}
       </View>
     </Pressable>
   );
@@ -20,9 +134,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   card: {
-    height: 140,
+    height: 280,
     width: "90%",
-    backgroundColor: "white",
     borderRadius: 15,
     elevation: 10,
     padding: 15,
@@ -35,46 +148,41 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
-  details: {
-    height: "100%",
-    width: "90%",
-    padding: 5,
-    flexDirection: "column",
+  profesionalCard: { backgroundColor: "#b5b2b2" },
+  normalCard: { backgroundColor: "white" },
+  image: {
+    width: "100%",
+    height: 130,
+    borderRadius: 15,
+    borderWidth: 3,
+    borderColor: "#D5D8DC",
   },
-  headerText: {
-    fontSize: 17,
-    fontWeight: "bold",
-    marginTop: 5,
-    marginLeft: 3,
-  },
-  chip: {
-    minWidth: 85,
-  },
-  headerMain: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  divider: {
-    marginTop: 6,
-  },
-  descripcion: {
+
+  description: {
+    flex: 1,
     padding: 5,
     borderColor: "black",
-    borderWidth: 0.3,
+    borderWidth: 0.5,
     borderRadius: 10,
     minHeight: 70,
     maxHeight: 70,
-    marginTop: 6,
+    width: "100%",
   },
-  moreInfo: {
+  headerTitle: { fontWeight: "700", paddingVertical: 4 },
+  headerNombre: {
+    fontWeight: "400",
+    paddingVertical: 4,
+    marginLeft: 3,
+  },
+  profesionalContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    height: 20,
-    alignItems: "center",
-    marginTop: 5,
   },
-  dialog: {
-    borderRadius: 15,
-    padding: 10,
+  infoProfesional: {
+    width: "35%",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 0,
   },
 });
