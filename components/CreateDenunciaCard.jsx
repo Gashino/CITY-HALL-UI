@@ -88,11 +88,14 @@ const CreationReclamoCard = () => {
   };
 
   async function handleSubmit() {
+    const imagenesFileNames = image.map((imagen) => imagen.fileName);
+
     const denuncia = {
       issuerDocument: user.document,
       description: descripcion,
       siteId: sitio ? sitio : null,
       denouncedDocument: denunciado ? denunciado : "",
+      images: imagenesFileNames.length > 0 ? [...imagenesFileNames] : [],
     };
 
     if (checkbox && descripcion !== "" && (sitio || denunciado)) {

@@ -49,11 +49,14 @@ const CreationReclamoCard = () => {
       return;
     }
 
+    const imagenesFileNames = image.map((imagen) => imagen.fileName);
+
     const respuesta = await publicarReclamo(
       user.document,
       sitio,
       desperfecto,
-      descripcion
+      descripcion,
+      imagenesFileNames
     );
     if (respuesta === 200) {
       Alert.alert("Confirmación", "Reclamo creado con éxito");

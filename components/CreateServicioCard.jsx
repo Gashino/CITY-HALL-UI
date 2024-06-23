@@ -315,13 +315,23 @@ const CreateServicioCard = ({ tipo }) => {
 
     if (!isValid) return;
 
+    const imagenesFileNames =
+      tipo === "normal"
+        ? data.imagenes.map((imagen) => imagen.fileName)
+        : profesionalData.imagenes.map((imagen) => imagen.fileName);
+
     const response = await (tipo === "normal"
-      ? createNormalService({ ...data, document: user.document })
+      ? createNormalService({
+          ...data,
+          document: user.document,
+          imagenes: imagenesFileNames,
+        })
       : createProfessionalService({
           ...profesionalData,
           document: user.document,
           name: user.name,
           surname: user.surname,
+          imagenes: imagenesFileNames,
         }));
 
     if (response === 200) {

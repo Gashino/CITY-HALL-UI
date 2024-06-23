@@ -4,7 +4,8 @@ export const publicarReclamo = async (
   userDni,
   idSitio,
   idDesperfecto,
-  descripcion
+  descripcion,
+  images
 ) => {
   try {
     const response = await api.post("/api/claim/create", {
@@ -12,6 +13,7 @@ export const publicarReclamo = async (
       idSite: idSitio,
       idFlaw: idDesperfecto,
       description: descripcion,
+      images: [...images],
     });
     return response.status;
   } catch (error) {
