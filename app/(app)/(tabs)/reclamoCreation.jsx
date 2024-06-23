@@ -13,9 +13,9 @@ const ReclamoCreationPage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Takes full height of the screen
-    justifyContent: "center", // Center vertically
-    alignItems: "center", // Center horizontally
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 export default ReclamoCreationPage;
