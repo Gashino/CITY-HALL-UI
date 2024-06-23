@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import CreateCardBase from "./CardCreationBase";
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { Button, Divider } from "@rneui/base";
 import {
   createNormalService,
@@ -10,9 +17,45 @@ import { Alert } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import { getRubros } from "../services/dataService";
 import { useAuth } from "../context/auth";
+import * as ImagePicker from "expo-image-picker";
+import { TouchableOpacity } from "react-native";
+import { uploadImages } from "../services/formDataService";
 
 const ProfesionalCard = ({ data, setData }) => {
   const [rubrosList, setRubrosList] = useState([]);
+
+  const seleccionarImagen = async () => {
+    const restante = 3 - data.imagenes.length;
+
+    if (restante != 0) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        aspect: [16, 9],
+        quality: 0.5,
+        allowsMultipleSelection: true,
+        selectionLimit: restante,
+      });
+      if (!result.canceled) {
+        const selectedImages = result.assets.map((asset) => asset);
+        setData((prevData) => ({
+          ...prevData,
+          imagenes: [...prevData.imagenes, ...selectedImages],
+        }));
+      }
+    } else {
+      Alert.alert(
+        "Limite alcanzado",
+        "Solo se pueden adjuntar hasta 3 imágenes"
+      );
+    }
+  };
+
+  const removeImage = (index) => {
+    setData((prevData) => ({
+      ...prevData,
+      imagenes: prevData.imagenes.filter((_, i) => i !== index),
+    }));
+  };
 
   useEffect(() => {
     getRubros().then((data) => {
@@ -87,13 +130,78 @@ const ProfesionalCard = ({ data, setData }) => {
             width: 210,
             justifyContent: "center",
           }}
+          onPress={seleccionarImagen}
         />
       </View>
+      <Divider style={styles.select} inset={true} insetType="middle" />
+      {Array.isArray(data.imagenes) && data.imagenes.length > 0 && (
+        <>
+          <Text
+            style={{
+              alignSelf: "center",
+              paddingBottom: 10,
+              fontWeight: "600",
+            }}
+          >
+            Imágenes adjuntas
+          </Text>
+          <ScrollView horizontal>
+            {data.imagenes.map((img, index) => (
+              <TouchableOpacity
+                key={index}
+                style={{ position: "relative", marginRight: 5 }}
+                onPress={() => removeImage(index)}
+              >
+                <Image
+                  source={{ uri: img.uri }}
+                  style={{ width: 100, height: 100 }}
+                />
+                <View style={styles.overlay}>
+                  <Text style={styles.text}>X</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </>
+      )}
     </ScrollView>
   );
 };
 
 const NormalCard = ({ data, setData }) => {
+  const seleccionarImagen = async () => {
+    const restante = 3 - data.imagenes.length;
+
+    if (restante != 0) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        aspect: [16, 9],
+        quality: 0.5,
+        allowsMultipleSelection: true,
+        selectionLimit: restante,
+      });
+      if (!result.canceled) {
+        const selectedImages = result.assets.map((asset) => asset);
+        setData((prevData) => ({
+          ...prevData,
+          imagenes: [...prevData.imagenes, ...selectedImages],
+        }));
+      }
+    } else {
+      Alert.alert(
+        "Limite alcanzado",
+        "Solo se pueden adjuntar hasta 3 imágenes"
+      );
+    }
+  };
+
+  const removeImage = (index) => {
+    setData((prevData) => ({
+      ...prevData,
+      imagenes: prevData.imagenes.filter((_, i) => i !== index),
+    }));
+  };
+
   return (
     <ScrollView style={styles.main}>
       <Text style={styles.headerText}>Título del servicio</Text>
@@ -140,8 +248,40 @@ const NormalCard = ({ data, setData }) => {
             width: 210,
             justifyContent: "center",
           }}
+          onPress={seleccionarImagen}
         />
       </View>
+      <Divider style={styles.select} inset={true} insetType="middle" />
+      {Array.isArray(data.imagenes) && data.imagenes.length > 0 && (
+        <>
+          <Text
+            style={{
+              alignSelf: "center",
+              paddingBottom: 10,
+              fontWeight: "600",
+            }}
+          >
+            Imágenes adjuntas
+          </Text>
+          <ScrollView horizontal>
+            {data.imagenes.map((img, index) => (
+              <TouchableOpacity
+                key={index}
+                style={{ position: "relative", marginRight: 5 }}
+                onPress={() => removeImage(index)}
+              >
+                <Image
+                  source={{ uri: img.uri }}
+                  style={{ width: 100, height: 100 }}
+                />
+                <View style={styles.overlay}>
+                  <Text style={styles.text}>X</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </>
+      )}
     </ScrollView>
   );
 };
@@ -149,6 +289,7 @@ const NormalCard = ({ data, setData }) => {
 const dataInitialState = {
   title: "",
   description: "",
+  imagenes: [],
 };
 
 const profesionalDataInitialState = {
@@ -156,6 +297,7 @@ const profesionalDataInitialState = {
   description: "",
   hours: "",
   categoryId: 0,
+  imagenes: [],
 };
 
 const CreateServicioCard = ({ tipo }) => {
@@ -187,11 +329,16 @@ const CreateServicioCard = ({ tipo }) => {
         "Confirmación",
         "Servicio creado. Sera revisado por la municipalidad"
       );
+      if (data.imagenes.length > 0) {
+        await uploadImages(data.imagenes);
+      } else if (profesionalData.imagenes.length > 0) {
+        await uploadImages(profesionalData.imagenes);
+      }
+      setData(dataInitialState);
+      setProfesionalData(profesionalDataInitialState);
     } else {
       Alert.alert("Error", "Error al crear el servicio...");
     }
-    setData(dataInitialState);
-    setProfesionalData(profesionalDataInitialState);
   }
 
   async function validateNormalService() {
@@ -256,5 +403,20 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     flexDirection: "column",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    color: "red",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });
