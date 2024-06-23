@@ -324,14 +324,14 @@ const CreateServicioCard = ({ tipo }) => {
       ? createNormalService({
           ...data,
           document: user.document,
-          imagenes: imagenesFileNames,
+          images: imagenesFileNames,
         })
       : createProfessionalService({
           ...profesionalData,
           document: user.document,
           name: user.name,
           surname: user.surname,
-          imagenes: imagenesFileNames,
+          images: imagenesFileNames,
         }));
 
     if (response === 200) {
