@@ -60,10 +60,10 @@ const CreationReclamoCard = () => {
       setDescripcion("");
       setSitio(null);
       setDesperfecto(null);
-      setImage([]);
       if (image.length > 0) {
         await uploadImages(image);
       }
+      setImage([]);
     } else {
       Alert.alert("Error", "Error al crear el reclamo");
     }
