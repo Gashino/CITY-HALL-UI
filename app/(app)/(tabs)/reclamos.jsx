@@ -23,6 +23,7 @@ const ReclamosPage = () => {
           responsable: reclamo.employee,
           descripcion: reclamo.description,
           userdni: reclamo.user.document,
+          images: reclamo.images,
         };
       });
       setReclamos(reclamosArray);

@@ -50,3 +50,7 @@ export const uploadImages = async (images) => {
 
   await Promise.all(uploadPromises);
 };
+
+export const getImage = (blobName) => {
+  return `https://filesmunicipios.blob.core.windows.net/imagenes/${blobName}?sp=r&st=2024-06-23T22:07:27Z&se=2024-08-01T06:07:27Z&sv=2022-11-02&sr=c&sig=0nyRjAc5E%2BT8XGlUy29Zjtku2w34LhcLejnTjn2x3pE%3D`;
+};
