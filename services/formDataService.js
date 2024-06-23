@@ -1,24 +1,30 @@
 import axios from "axios";
 import * as FileSystem from "expo-file-system";
 
-const baseSasUrl = `https://filesmunicipios.blob.core.windows.net/imagenes`;
-
+//TRANSOFMADORES A BYTES
 async function readFile(uri) {
   try {
     const fileData = await FileSystem.readAsStringAsync(uri, {
       encoding: FileSystem.EncodingType.Base64,
     });
-    const raw = atob(fileData);
-    const rawLength = raw.length;
-    let array = new Uint8Array(new ArrayBuffer(rawLength));
-    for (let i = 0; i < rawLength; i++) {
-      array[i] = raw.charCodeAt(i);
-    }
+    const array = base64ToUint8Array(fileData);
     return array;
   } catch (error) {
     console.error("Failed to read file", error);
   }
 }
+
+function base64ToUint8Array(base64) {
+  const binaryString = atob(base64);
+  const len = binaryString.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes;
+}
+
+const baseSasUrl = `https://filesmunicipios.blob.core.windows.net/imagenes`;
 
 export const uploadImages = async (images) => {
   const uploadPromises = images.map(async (image) => {
