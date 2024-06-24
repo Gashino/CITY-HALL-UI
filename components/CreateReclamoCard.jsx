@@ -7,12 +7,16 @@ import {
   TextInput,
   View,
   Alert,
+  Image,
 } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import { getDesperfectos, getSites } from "../services/dataService";
 import { Button, Divider } from "@rneui/base";
 import { publicarReclamo } from "../services/reclamosService";
 import { useAuth } from "../context/auth";
+import * as ImagePicker from "expo-image-picker";
+import { TouchableOpacity } from "react-native";
+import { uploadImages } from "../services/formDataService";
 
 const CreationReclamoCard = () => {
   const [sitio, setSitio] = useState(null);
@@ -21,6 +25,7 @@ const CreationReclamoCard = () => {
   const [desperfectosList, setDesperfectos] = useState([]);
   const [descripcion, setDescripcion] = useState("");
   const { user } = useAuth();
+  const [image, setImage] = useState([]);
 
   useEffect(() => {
     getSites().then((data) => {
@@ -32,8 +37,18 @@ const CreationReclamoCard = () => {
 
     getDesperfectos().then((data) => {
       let desArray = data.map((des) => {
-        return { key: des.idFlaw, value: des.description };
+        return {
+          key: des.idFlaw,
+          value: des.description,
+          idCategory: des.category.categoryId,
+        };
       });
+
+      if (user.isAdmin) {
+        desArray = desArray.filter(
+          (des) => des.idCategory === user.category.categoryId
+        );
+      }
       setDesperfectos(desArray);
     });
   }, []);
@@ -44,19 +59,55 @@ const CreationReclamoCard = () => {
       return;
     }
 
+    const imagenesFileNames = image.map((imagen) => imagen.fileName);
+
     const respuesta = await publicarReclamo(
       user.document,
       sitio,
       desperfecto,
-      descripcion
+      descripcion,
+      imagenesFileNames
     );
     if (respuesta === 200) {
       Alert.alert("Confirmación", "Reclamo creado con éxito");
       setDescripcion("");
+      setSitio(null);
+      setDesperfecto(null);
+      if (image.length > 0) {
+        await uploadImages(image);
+      }
+      setImage([]);
     } else {
       Alert.alert("Error", "Error al crear el reclamo");
     }
   }
+
+  const seleccionarImagen = async () => {
+    const restante = 5 - image.length;
+
+    if (restante != 0) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        aspect: [16, 9],
+        quality: 0.5,
+        allowsMultipleSelection: true,
+        selectionLimit: restante,
+      });
+      if (!result.canceled) {
+        const selectedImages = result.assets.map((asset) => asset);
+        setImage((prevImages) => [...prevImages, ...selectedImages]);
+      }
+    } else {
+      Alert.alert(
+        "Limite alcanzado",
+        "Solo se pueden adjuntar hasta 5 imágenes"
+      );
+    }
+  };
+
+  const removeImage = (index) => {
+    setImage((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
 
   return (
     <CreateCardBase title={"Crear un reclamo"} handler={handleSubmit}>
@@ -115,8 +166,40 @@ const CreationReclamoCard = () => {
               width: 210,
               justifyContent: "center",
             }}
+            onPress={seleccionarImagen}
           />
         </View>
+        <Divider style={styles.select} inset={true} insetType="middle" />
+        {Array.isArray(image) && image.length > 0 && (
+          <>
+            <Text
+              style={{
+                alignSelf: "center",
+                paddingBottom: 10,
+                fontWeight: "600",
+              }}
+            >
+              Imágenes adjuntas
+            </Text>
+            <ScrollView horizontal>
+              {image.map((img, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={{ position: "relative", marginRight: 5 }}
+                  onPress={() => removeImage(index)}
+                >
+                  <Image
+                    source={{ uri: img.uri }}
+                    style={{ width: 100, height: 100 }}
+                  />
+                  <View style={styles.overlay}>
+                    <Text style={styles.text}>X</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </>
+        )}
       </ScrollView>
     </CreateCardBase>
   );
@@ -148,6 +231,21 @@ const styles = StyleSheet.create({
     marginTop: 15,
     justifyContent: "center",
     alignItems: "center",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    color: "red",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });
 

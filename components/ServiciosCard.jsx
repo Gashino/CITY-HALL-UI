@@ -1,8 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { View, Text, Pressable, StyleSheet, Image } from "react-native";
-
-const img1 = require("../assets/images/gotera.png");
+import { getImage } from "../services/formDataService";
 
 export default CardServicio = ({ servicio, rubro }) => {
   const ProfesionalService = () => {
@@ -18,9 +17,14 @@ export default CardServicio = ({ servicio, rubro }) => {
           }}
         >
           <Image
-            source={img1}
+            source={{
+              uri:
+                servicio.images.length > 0
+                  ? getImage(servicio.images[0])
+                  : "https://www.its.ac.id/tmesin/wp-content/uploads/sites/22/2022/07/no-image.png",
+            }}
             style={styles.image}
-            resizeMode="stretch"
+            resizeMode="cover"
           ></Image>
           <View
             style={{
@@ -100,9 +104,14 @@ export default CardServicio = ({ servicio, rubro }) => {
           }}
         >
           <Image
-            source={img1}
+            source={{
+              uri:
+                servicio.images.length > 0
+                  ? getImage(servicio.images[0])
+                  : "https://www.its.ac.id/tmesin/wp-content/uploads/sites/22/2022/07/no-image.png",
+            }}
             style={styles.image}
-            resizeMode="stretch"
+            resizeMode="cover"
           ></Image>
           <Text style={styles.headerTitle}>{servicio.title}</Text>
           <View style={styles.description}>

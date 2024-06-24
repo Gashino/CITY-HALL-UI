@@ -1,18 +1,8 @@
 import { Chip, Dialog } from "@rneui/themed";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import { getImage } from "../services/formDataService";
 
-const img1 = require("../assets/images/gotera.png");
-const img2 = require("../assets/images/portonroto.png");
-const img3 = require("../assets/images/canillarota.png");
-const img4 = require("../assets/images/arbolcaido.png");
-const img5 = require("../assets/images/candadoroto.jpg");
-const images = [img1, img2, img3, img4, img5];
-
-function getRandomImage() {
-  const randomIndex = Math.floor(Math.random() * images.length);
-  return images[randomIndex];
-}
 const getColorByStatus = (status) => {
   switch (status) {
     case "CERRADO":
@@ -46,7 +36,15 @@ export default CardReclamo = ({ reclamo }) => {
               justifyContent: "center",
             }}
           >
-            <Image source={getRandomImage()} style={styles.image}></Image>
+            <Image
+              source={{
+                uri:
+                  reclamo.images.length > 0
+                    ? getImage(reclamo.images[0])
+                    : "https://www.its.ac.id/tmesin/wp-content/uploads/sites/22/2022/07/no-image.png",
+              }}
+              style={styles.image}
+            ></Image>
             <View style={styles.details}>
               <View style={styles.headerMain}>
                 <Text style={styles.headerText}>ID #{reclamo.id}</Text>

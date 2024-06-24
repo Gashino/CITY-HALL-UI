@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from "react";
 import CreateCardBase from "./CardCreationBase";
 import { useAuth } from "../context/auth";
-import { Alert, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import {
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
+} from "react-native";
 import { getSites, getVecinos } from "../services/dataService";
 import { CheckBox, Divider, Text, Dialog, Button } from "@rneui/base";
 import { Switch } from "@rneui/themed";
 import { SelectList } from "react-native-dropdown-select-list";
 import { Ionicons } from "@expo/vector-icons";
 import { publicarDenuncia } from "../services/denunciasService";
+import * as ImagePicker from "expo-image-picker";
+import { TouchableOpacity } from "react-native";
+import { uploadImages } from "../services/formDataService";
 
 const CreationReclamoCard = () => {
   const { user } = useAuth();
@@ -19,6 +29,7 @@ const CreationReclamoCard = () => {
   const [checked, setChecked] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
   const [visible1, setVisible1] = useState(false);
+  const [image, setImage] = useState([]);
 
   useEffect(() => {
     getVecinos().then((data) => {
@@ -45,16 +56,46 @@ const CreationReclamoCard = () => {
     setCheckbox(!checkbox);
   };
 
+  const seleccionarImagen = async () => {
+    const restante = 5 - image.length;
+
+    if (restante != 0) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        aspect: [16, 9],
+        quality: 0.5,
+        allowsMultipleSelection: true,
+        selectionLimit: restante,
+      });
+      if (!result.canceled) {
+        const selectedImages = result.assets.map((asset) => asset);
+        setImage((prevImages) => [...prevImages, ...selectedImages]);
+      }
+    } else {
+      Alert.alert(
+        "Limite alcanzado",
+        "Solo se pueden adjuntar hasta 5 imágenes"
+      );
+    }
+  };
+
+  const removeImage = (index) => {
+    setImage((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
+
   toggleDialog = () => {
     setVisible1(!visible1);
   };
 
   async function handleSubmit() {
+    const imagenesFileNames = image.map((imagen) => imagen.fileName);
+
     const denuncia = {
       issuerDocument: user.document,
       description: descripcion,
       siteId: sitio ? sitio : null,
       denouncedDocument: denunciado ? denunciado : "",
+      images: imagenesFileNames.length > 0 ? [...imagenesFileNames] : [],
     };
 
     if (checkbox && descripcion !== "" && (sitio || denunciado)) {
@@ -65,6 +106,10 @@ const CreationReclamoCard = () => {
         setDenunciado(null);
         setDescripcion("");
         setSitio(null);
+        if (image.length > 0) {
+          await uploadImages(image);
+        }
+        setImage([]);
       } else {
         Alert.alert("Error", "Error al crear la denuncia");
       }
@@ -140,6 +185,7 @@ const CreationReclamoCard = () => {
 
         <View style={styles.cameraContainer}>
           <Button
+            onPress={seleccionarImagen}
             title="Adjuntar imágenes"
             icon={{
               name: "camera",
@@ -175,6 +221,37 @@ const CreationReclamoCard = () => {
             checkedColor="green"
           ></CheckBox>
         </View>
+        <Divider style={styles.select} inset={true} insetType="middle" />
+        {Array.isArray(image) && image.length > 0 && (
+          <>
+            <Text
+              style={{
+                alignSelf: "center",
+                paddingBottom: 10,
+                fontWeight: "600",
+              }}
+            >
+              Imágenes adjuntas
+            </Text>
+            <ScrollView horizontal>
+              {image.map((img, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={{ position: "relative", marginRight: 5 }}
+                  onPress={() => removeImage(index)}
+                >
+                  <Image
+                    source={{ uri: img.uri }}
+                    style={{ width: 100, height: 100 }}
+                  />
+                  <View style={styles.overlay}>
+                    <Text style={styles.text}>X</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </>
+        )}
       </ScrollView>
       <Dialog
         isVisible={visible1}
@@ -242,5 +319,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#f78b8c",
     borderRadius: 10,
     alignItems: "center",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    color: "red",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });
