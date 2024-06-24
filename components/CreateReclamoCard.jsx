@@ -37,8 +37,18 @@ const CreationReclamoCard = () => {
 
     getDesperfectos().then((data) => {
       let desArray = data.map((des) => {
-        return { key: des.idFlaw, value: des.description };
+        return {
+          key: des.idFlaw,
+          value: des.description,
+          idCategory: des.category.categoryId,
+        };
       });
+
+      if (user.isAdmin) {
+        desArray = desArray.filter(
+          (des) => des.idCategory === user.category.categoryId
+        );
+      }
       setDesperfectos(desArray);
     });
   }, []);

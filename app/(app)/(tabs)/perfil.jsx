@@ -99,8 +99,21 @@ const PerfilPage = () => {
           }}
         >
           <Text style={styles.datosHeader}>Documento: {user.document}</Text>
-          <Text style={styles.datosHeader}>Direccion: {user.direction}</Text>
-          <Text style={styles.datosHeader}>Barrio: {user.district}</Text>
+          {!user.isAdmin ? (
+            <>
+              <Text style={styles.datosHeader}>
+                Direccion: {user.direction}
+              </Text>
+              <Text style={styles.datosHeader}>Barrio: {user.district}</Text>
+            </>
+          ) : (
+            <>
+              <Text style={styles.datosHeader}>Sector: {user.department}</Text>
+              <Text style={styles.datosHeader}>
+                Fecha Ingreso: {user.startDate.substring(0, 10)}
+              </Text>
+            </>
+          )}
         </View>
       </View>
       <View style={styles.headerPassword}>
@@ -189,6 +202,7 @@ const PerfilPage = () => {
         }}
       >
         <Button
+          disabled={user.isAdmin}
           color={"#4624b5"}
           size="lg"
           title={"Crear Servicio"}

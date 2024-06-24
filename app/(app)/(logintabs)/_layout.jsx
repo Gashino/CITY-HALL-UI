@@ -32,6 +32,7 @@ const TabLogin = () => {
           tabBarIcon: ({ color }) => (
             <Ionicons name="bag-outline" color={color} size={35} />
           ),
+          tabBarActiveTintColor: "#1d3552",
         }}
       />
       <Tabs.Screen
@@ -52,6 +53,7 @@ const TabLogin = () => {
           tabBarIcon: ({ color }) => (
             <Ionicons name="person-circle-outline" color={color} size={35} />
           ),
+          tabBarActiveTintColor: "#1d3552",
         }}
       />
     </Tabs>

@@ -12,6 +12,7 @@ const DenunciasPage = () => {
   const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
+    if (user.isAdmin) return;
     getDenuncias(user.document).then((data) => {
       let denunciaArray = data.map((denuncia) => {
         return {
@@ -45,26 +46,32 @@ const DenunciasPage = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={{ width: "100%", flex: 1 }}
-        refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-        }
-      >
-        {!refresh ? (
-          denuncias.length === 0 ? (
-            <View style={{ flex: 1, alignItems: "center", paddingTop: 350 }}>
-              <Text style={{ fontWeight: "bold" }}>
-                No hay denuncias para mostrar.
-              </Text>
-            </View>
-          ) : (
-            denuncias.map((denuncia) => (
-              <CardDenuncia key={denuncia.idComplaint} denuncia={denuncia} />
-            ))
-          )
-        ) : null}
-      </ScrollView>
+      {!user.isAdmin ? (
+        <ScrollView
+          style={{ width: "100%", flex: 1 }}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+        >
+          {!refresh ? (
+            denuncias.length === 0 ? (
+              <View style={{ flex: 1, alignItems: "center", paddingTop: 350 }}>
+                <Text style={{ fontWeight: "bold" }}>
+                  No hay denuncias para mostrar.
+                </Text>
+              </View>
+            ) : (
+              denuncias.map((denuncia) => (
+                <CardDenuncia key={denuncia.idComplaint} denuncia={denuncia} />
+              ))
+            )
+          ) : null}
+        </ScrollView>
+      ) : (
+        <Text style={{ fontWeight: "bold" }}>
+          No tienes permisos para ver esta página.
+        </Text>
+      )}
     </View>
   );
 };

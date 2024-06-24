@@ -19,10 +19,11 @@ const ReclamosPage = () => {
         return {
           id: reclamo.idClaim,
           estado: reclamo.status,
-          creador: reclamo.user.email,
-          responsable: reclamo.employee,
+          creador: reclamo.user ? reclamo.user : reclamo.employee,
           descripcion: reclamo.description,
-          userdni: reclamo.user.document,
+          userdni: reclamo.user
+            ? reclamo.user.document
+            : reclamo.employee.document,
           images: reclamo.images,
         };
       });

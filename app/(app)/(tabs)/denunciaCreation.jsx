@@ -1,11 +1,17 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import CreateDenunciaCard from "../../../components/CreateDenunciaCard";
+import { useAuth } from "../../../context/auth";
 
 const DenunciaCreationPage = () => {
+  const { user } = useAuth();
   return (
     <View style={styles.container}>
-      <CreateDenunciaCard></CreateDenunciaCard>
+      {!user.isAdmin ? (
+        <CreateDenunciaCard></CreateDenunciaCard>
+      ) : (
+        <Text style={{ fontWeight: "bold" }}>No puedes crear denuncias.</Text>
+      )}
     </View>
   );
 };
