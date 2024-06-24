@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import CardReclamo from "../../../components/ReclamoCard";
-import { getReclamos } from "../../../services/reclamosService";
+import {
+  getReclamos,
+  getReclamosByRubro,
+} from "../../../services/reclamosService";
 import { Switch, Text } from "@rneui/base";
 import { useAuth } from "../../../context/auth";
 import { RefreshControl } from "react-native";
@@ -14,7 +17,10 @@ const ReclamosPage = () => {
   const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
-    getReclamos().then((data) => {
+    const fetchData = async () => {
+      const data = user.isAdmin
+        ? await getReclamosByRubro(user.category.categoryId)
+        : await getReclamos();
       let reclamosArray = data.map((reclamo) => {
         return {
           id: reclamo.idClaim,
@@ -33,7 +39,8 @@ const ReclamosPage = () => {
       );
       setReclamosFiltrados(reclamosFiltrados);
       setRefresh(false);
-    });
+    };
+    fetchData();
   }, [refresh]);
 
   const onRefresh = useCallback(() => {

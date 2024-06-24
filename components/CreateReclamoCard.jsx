@@ -83,7 +83,7 @@ const CreationReclamoCard = () => {
   }
 
   const seleccionarImagen = async () => {
-    const restante = 5 - image.length;
+    const restante = user.isAdmin ? 9999 : 7 - image.length;
 
     if (restante != 0) {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -100,7 +100,7 @@ const CreationReclamoCard = () => {
     } else {
       Alert.alert(
         "Limite alcanzado",
-        "Solo se pueden adjuntar hasta 5 imágenes"
+        "Solo se pueden adjuntar hasta 7 imágenes"
       );
     }
   };
