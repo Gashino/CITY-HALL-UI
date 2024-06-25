@@ -1,9 +1,21 @@
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
-import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import React, { useState } from "react";
+import { View, Text, Pressable, StyleSheet, Image, Alert } from "react-native";
 import { getImage } from "../services/formDataService";
+import Carousel from "react-native-reanimated-carousel";
+import { ScrollView } from "react-native";
+import { Button, Dialog } from "@rneui/base";
+import { useAuth } from "../context/auth";
+import { useFocusEffect } from "expo-router";
+import { eliminarService } from "../services/serviciosService";
 
-export default CardServicio = ({ servicio, rubro }) => {
+export default CardServicio = ({ servicio, rubro, user }) => {
+  const [visible1, setVisible1] = useState(false);
+
+  toggleDialog = () => {
+    setVisible1(!visible1);
+  };
+
   const ProfesionalService = () => {
     return (
       <View style={[styles.card, styles.profesionalCard]}>
@@ -127,12 +139,134 @@ export default CardServicio = ({ servicio, rubro }) => {
     );
   };
 
+  const handleEliminar = () => {
+    Alert.alert(
+      "Eliminar",
+      "¿Está seguro que desea eliminar el servicio?",
+      [
+        {
+          text: "No",
+          style: "cancel",
+        },
+        {
+          text: "Sí",
+          onPress: () => {
+            eliminarService(servicio.idService).then((data) => {
+              if (data === 200) {
+                Alert.alert("Servicio eliminado correctamente");
+                setVisible1(false);
+              } else {
+                Alert.alert("Error al eliminar el servicio");
+              }
+            });
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   return (
-    <Pressable>
+    <>
       <View style={styles.container}>
-        {servicio.profesional ? ProfesionalService() : NormalService()}
+        <Pressable onPress={toggleDialog}>
+          {servicio.profesional ? ProfesionalService() : NormalService()}
+        </Pressable>
       </View>
-    </Pressable>
+      <Dialog
+        isVisible={visible1}
+        onBackdropPress={toggleDialog}
+        overlayStyle={{
+          ...styles.dialog,
+          backgroundColor: servicio.profesional ? "#2a4d78" : "#5d8bc4",
+        }}
+        animationType="slide"
+      >
+        <Dialog.Title
+          titleStyle={{ textAlign: "center" }}
+          title={<Text>{servicio.title}</Text>}
+        />
+        <ScrollView>
+          <Text
+            style={{
+              textAlign: "center",
+              paddingRight: 10,
+              paddingLeft: 10,
+              paddingTop: 10,
+            }}
+          >
+            {servicio.description}
+          </Text>
+          {servicio.profesional && (
+            <>
+              <Text style={{ alignSelf: "center", paddingTop: 15 }}>
+                <Text style={{ fontWeight: "bold" }}>Nombre: </Text>
+                {servicio.name} {servicio.surname}
+              </Text>
+              <Text style={{ alignSelf: "center", paddingTop: 15 }}>
+                <Text style={{ fontWeight: "bold" }}> Rubro: </Text>
+                {servicio.category.description}
+              </Text>
+              <Text style={{ alignSelf: "center", paddingTop: 15 }}>
+                <Text style={{ fontWeight: "bold" }}> Horarios: </Text>
+                {servicio.hours}
+              </Text>
+            </>
+          )}
+          {servicio.images.length === 0 ? (
+            <Text
+              style={{
+                fontWeight: "800",
+                alignSelf: "center",
+                paddingTop: 80,
+              }}
+            >
+              No hay imagenes para mostrar
+            </Text>
+          ) : (
+            <Carousel
+              autoPlay={true}
+              autoPlayInterval={3000}
+              width={360}
+              height={500}
+              style={{ alignSelf: "center", marginTop: 20 }}
+              data={servicio.images}
+              scrollAnimationDuration={750}
+              renderItem={({ item }) => (
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri: getImage(item),
+                    }}
+                    style={{ flex: 1 }}
+                    resizeMode="cover"
+                  ></Image>
+                </View>
+              )}
+            />
+          )}
+        </ScrollView>
+        {user && user.document === servicio.document && (
+          <Button
+            title={"Eliminar"}
+            size="md"
+            buttonStyle={{
+              width: "30%",
+              alignSelf: "center",
+              borderRadius: 8,
+            }}
+            color={"#c23327"}
+            onPress={handleEliminar}
+          ></Button>
+        )}
+      </Dialog>
+    </>
   );
 };
 
@@ -193,5 +327,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 0,
+  },
+  dialog: {
+    borderRadius: 15,
+    padding: 10,
+    height: "70%",
+    width: "90%",
   },
 });

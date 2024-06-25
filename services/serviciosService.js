@@ -26,3 +26,12 @@ export const createProfessionalService = async (data) => {
     console.log(error);
   }
 };
+
+export const eliminarService = async (id) => {
+  try {
+    const response = await api.delete(`/api/service/delete/${id}`);
+    return response.status;
+  } catch (error) {
+    console.log(error);
+  }
+};

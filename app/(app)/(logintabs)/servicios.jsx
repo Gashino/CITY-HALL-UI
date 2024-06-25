@@ -22,6 +22,7 @@ const Servicios = () => {
   const [rubro, setRubro] = useState(null);
   const [rubrosList, setRubrosList] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const user = undefined;
 
   useEffect(() => {
     getServicios().then((data) => {
@@ -72,6 +73,7 @@ const Servicios = () => {
               ? getValueByKey(servicio.category.categoryId)
               : null
           }
+          user={user}
         />
       );
     });

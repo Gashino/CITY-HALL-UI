@@ -31,6 +31,14 @@ const ReclamosPage = () => {
             ? reclamo.user.document
             : reclamo.employee.document,
           images: reclamo.images,
+          site:
+            reclamo.site.street +
+            " " +
+            reclamo.site.number +
+            " - " +
+            reclamo.site.description,
+          flaw: reclamo.flaw.description,
+          movements: reclamo.movements,
         };
       });
       setReclamos(reclamosArray);

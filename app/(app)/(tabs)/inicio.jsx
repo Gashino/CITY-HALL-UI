@@ -80,6 +80,7 @@ const InicioPage = () => {
               ? getValueByKey(servicio.category.categoryId)
               : null
           }
+          user={user}
         />
       );
     });
