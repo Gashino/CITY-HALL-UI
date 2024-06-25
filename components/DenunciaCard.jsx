@@ -1,7 +1,16 @@
 import { Chip, Dialog } from "@rneui/base";
-import React, { useState } from "react";
-import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Image,
+  ScrollView,
+} from "react-native";
 import { useAuth } from "../context/auth";
+import Carousel from "react-native-reanimated-carousel";
+import { getImage } from "../services/formDataService";
 
 const getColorByStatus = (status) => {
   switch (status) {
@@ -93,17 +102,103 @@ export default CardDenuncia = ({ denuncia }) => {
       >
         <Dialog.Title
           titleStyle={{ textAlign: "center" }}
-          title={<Text>Denuncia #{denuncia.idComplaint} </Text>}
+          title={
+            <Text>
+              Denuncia #{denuncia.idComplaint} - {denuncia.status}
+            </Text>
+          }
         />
-        <Text
-          style={{
-            textAlign: "center",
-            paddingRight: 10,
-            paddingLeft: 10,
-          }}
-        >
-          Toda la informacion de la denuncia con fotos...
-        </Text>
+        <ScrollView>
+          <Text
+            style={{
+              textAlign: "center",
+              paddingRight: 10,
+              paddingLeft: 10,
+              paddingTop: 10,
+            }}
+          >
+            {denuncia.description}
+          </Text>
+          <Text style={{ alignSelf: "center", paddingTop: 15 }}>
+            <Text style={{ fontWeight: "bold" }}>Denunciado: </Text>
+            {denuncia.documentDenounced
+              ? denuncia.documentDenounced
+              : denuncia.siteStreet + " " + denuncia.siteNumber}
+          </Text>
+          {denuncia.images.length === 0 ? (
+            <Text
+              style={{
+                fontWeight: "800",
+                alignSelf: "center",
+                paddingTop: 50,
+              }}
+            >
+              No hay imagenes para mostrar
+            </Text>
+          ) : (
+            <Carousel
+              autoPlay={true}
+              autoPlayInterval={3000}
+              width={300}
+              height={500}
+              style={{ alignSelf: "center", marginTop: 20 }}
+              data={denuncia.images}
+              scrollAnimationDuration={750}
+              renderItem={({ item }) => (
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri: getImage(item),
+                    }}
+                    style={{ flex: 1 }}
+                    resizeMode="cover"
+                  ></Image>
+                </View>
+              )}
+            />
+          )}
+          {denuncia.movements.length > 0 ? (
+            <>
+              <Text
+                style={{
+                  alignSelf: "center",
+                  paddingTop: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                Historial de movimientos
+              </Text>
+              {denuncia.movements.map((mov, index) => (
+                <View
+                  key={index}
+                  style={{
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    padding: 8,
+                    marginTop: 5,
+                  }}
+                >
+                  <Text style={{ alignSelf: "center" }}>
+                    ID: {mov.idMovement} - Causa: {mov.cause} - Responsable:{" "}
+                    {mov.responsible} - Fecha: {mov.date.substring(0, 10)}
+                  </Text>
+                </View>
+              ))}
+            </>
+          ) : (
+            <Text
+              style={{ alignSelf: "center", paddingTop: 60, fontWeight: "800" }}
+            >
+              No hay movimientos para esta denuncia
+            </Text>
+          )}
+        </ScrollView>
       </Dialog>
     </Pressable>
   );
@@ -172,5 +267,7 @@ const styles = StyleSheet.create({
   dialog: {
     borderRadius: 15,
     padding: 10,
+    height: "60%",
+    width: "90%",
   },
 });

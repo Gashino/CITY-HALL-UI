@@ -22,6 +22,8 @@ const DenunciasPage = () => {
           description: denuncia.description,
           status: denuncia.status,
           documentDenounced: denuncia.documentDenounced,
+          images: denuncia.images,
+          movements: denuncia.movements,
         };
       });
       denunciaArray.sort((a, b) => {

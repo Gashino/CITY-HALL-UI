@@ -29,3 +29,12 @@ export const getReclamos = async () => {
     console.error("Error:", error);
   }
 };
+
+export const getReclamosByRubro = async (rubro) => {
+  try {
+    const response = await api.get(`/api/claim?rubro=${rubro}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};

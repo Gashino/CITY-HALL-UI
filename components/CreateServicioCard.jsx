@@ -25,7 +25,7 @@ const ProfesionalCard = ({ data, setData }) => {
   const [rubrosList, setRubrosList] = useState([]);
 
   const seleccionarImagen = async () => {
-    const restante = 3 - data.imagenes.length;
+    const restante = 5 - data.imagenes.length;
 
     if (restante != 0) {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -45,7 +45,7 @@ const ProfesionalCard = ({ data, setData }) => {
     } else {
       Alert.alert(
         "Limite alcanzado",
-        "Solo se pueden adjuntar hasta 3 imágenes"
+        "Solo se pueden adjuntar hasta 5 imágenes"
       );
     }
   };
@@ -170,7 +170,7 @@ const ProfesionalCard = ({ data, setData }) => {
 
 const NormalCard = ({ data, setData }) => {
   const seleccionarImagen = async () => {
-    const restante = 3 - data.imagenes.length;
+    const restante = 5 - data.imagenes.length;
 
     if (restante != 0) {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -190,7 +190,7 @@ const NormalCard = ({ data, setData }) => {
     } else {
       Alert.alert(
         "Limite alcanzado",
-        "Solo se pueden adjuntar hasta 3 imágenes"
+        "Solo se pueden adjuntar hasta 5 imágenes"
       );
     }
   };

@@ -1,7 +1,9 @@
 import { Chip, Dialog } from "@rneui/themed";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import { getImage } from "../services/formDataService";
+import Carousel from "react-native-reanimated-carousel";
+import { ScrollView } from "react-native";
 
 const getColorByStatus = (status) => {
   switch (status) {
@@ -22,6 +24,7 @@ const getColorByStatus = (status) => {
 
 export default CardReclamo = ({ reclamo }) => {
   const [visible1, setVisible1] = useState(false);
+
   toggleDialog = () => {
     setVisible1(!visible1);
   };
@@ -78,17 +81,109 @@ export default CardReclamo = ({ reclamo }) => {
       >
         <Dialog.Title
           titleStyle={{ textAlign: "center" }}
-          title={<Text>Reclamo #{reclamo.id} </Text>}
+          title={
+            <Text>
+              Reclamo #{reclamo.id} - {reclamo.estado}
+            </Text>
+          }
         />
-        <Text
-          style={{
-            textAlign: "center",
-            paddingRight: 10,
-            paddingLeft: 10,
-          }}
-        >
-          Toda la informacion del reclamo con fotos...
-        </Text>
+        <ScrollView>
+          <Text
+            style={{
+              textAlign: "center",
+              paddingRight: 10,
+              paddingLeft: 10,
+              paddingTop: 10,
+            }}
+          >
+            {reclamo.descripcion}
+          </Text>
+          <Text style={{ alignSelf: "center", paddingTop: 15 }}>
+            <Text style={{ fontWeight: "bold" }}>Emisor: </Text>
+            {reclamo.userdni}
+          </Text>
+          <Text style={{ alignSelf: "center", paddingTop: 15 }}>
+            <Text style={{ fontWeight: "bold" }}> Lugar: </Text>
+            {reclamo.site}
+          </Text>
+          <Text style={{ alignSelf: "center", paddingTop: 15 }}>
+            <Text style={{ fontWeight: "bold" }}> Desperfecto: </Text>
+            {reclamo.flaw}
+          </Text>
+          {reclamo.images.length === 0 ? (
+            <Text
+              style={{
+                fontWeight: "800",
+                alignSelf: "center",
+                paddingTop: 50,
+              }}
+            >
+              No hay imagenes para mostrar
+            </Text>
+          ) : (
+            <Carousel
+              autoPlay={true}
+              autoPlayInterval={3000}
+              width={300}
+              height={500}
+              style={{ alignSelf: "center", marginTop: 20 }}
+              data={reclamo.images}
+              scrollAnimationDuration={750}
+              renderItem={({ item }) => (
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri: getImage(item),
+                    }}
+                    style={{ flex: 1 }}
+                    resizeMode="cover"
+                  ></Image>
+                </View>
+              )}
+            />
+          )}
+          {reclamo.movements.length > 0 ? (
+            <>
+              <Text
+                style={{
+                  alignSelf: "center",
+                  paddingTop: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                Historial de movimientos
+              </Text>
+              {reclamo.movements.map((mov, index) => (
+                <View
+                  key={index}
+                  style={{
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    padding: 8,
+                    marginTop: 5,
+                  }}
+                >
+                  <Text style={{ alignSelf: "center" }}>
+                    ID: {mov.idMovement} - Causa: {mov.cause} - Responsable:{" "}
+                    {mov.responsible} - Fecha: {mov.date.substring(0, 10)}
+                  </Text>
+                </View>
+              ))}
+            </>
+          ) : (
+            <Text
+              style={{ alignSelf: "center", paddingTop: 60, fontWeight: "800" }}
+            >
+              No hay movimientos para este reclamo
+            </Text>
+          )}
+        </ScrollView>
       </Dialog>
     </Pressable>
   );
@@ -160,5 +255,7 @@ const styles = StyleSheet.create({
   dialog: {
     borderRadius: 15,
     padding: 10,
+    height: "60%",
+    width: "90%",
   },
 });

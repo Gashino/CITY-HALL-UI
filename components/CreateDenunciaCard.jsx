@@ -57,25 +57,15 @@ const CreationReclamoCard = () => {
   };
 
   const seleccionarImagen = async () => {
-    const restante = 5 - image.length;
-
-    if (restante != 0) {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        aspect: [16, 9],
-        quality: 0.5,
-        allowsMultipleSelection: true,
-        selectionLimit: restante,
-      });
-      if (!result.canceled) {
-        const selectedImages = result.assets.map((asset) => asset);
-        setImage((prevImages) => [...prevImages, ...selectedImages]);
-      }
-    } else {
-      Alert.alert(
-        "Limite alcanzado",
-        "Solo se pueden adjuntar hasta 5 imágenes"
-      );
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      aspect: [16, 9],
+      quality: 0.5,
+      allowsMultipleSelection: true,
+    });
+    if (!result.canceled) {
+      const selectedImages = result.assets.map((asset) => asset);
+      setImage((prevImages) => [...prevImages, ...selectedImages]);
     }
   };
 
