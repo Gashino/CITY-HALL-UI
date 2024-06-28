@@ -40,6 +40,20 @@
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "4be51c47-af85-4654-85ff-39ed49b69f42"
+      }
+    },
+    "owner": "gashino",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/4be51c47-af85-4654-85ff-39ed49b69f42"}
   }
 }

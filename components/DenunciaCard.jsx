@@ -133,11 +133,11 @@ export default CardDenuncia = ({ denuncia }) => {
                 paddingTop: 50,
               }}
             >
-              No hay imagenes para mostrar
+              No hay imágenes para mostrar
             </Text>
           ) : (
             <Carousel
-              autoPlay={true}
+              autoPlay={denuncia.images.length === 1 ? false : true}
               autoPlayInterval={3000}
               width={300}
               height={500}
@@ -158,7 +158,7 @@ export default CardDenuncia = ({ denuncia }) => {
                     }}
                     style={{ flex: 1 }}
                     resizeMode="cover"
-                  ></Image>
+                  />
                 </View>
               )}
             />

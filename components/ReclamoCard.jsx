@@ -122,7 +122,7 @@ export default CardReclamo = ({ reclamo }) => {
             </Text>
           ) : (
             <Carousel
-              autoPlay={true}
+              autoPlay={reclamo.images.length === 1 ? false : true}
               autoPlayInterval={3000}
               width={300}
               height={500}
