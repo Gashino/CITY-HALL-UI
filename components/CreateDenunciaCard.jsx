@@ -18,6 +18,7 @@ import { publicarDenuncia } from "../services/denunciasService";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native";
 import { uploadImages } from "../services/formDataService";
+import * as Network from "expo-network";
 
 const CreationReclamoCard = () => {
   const { user } = useAuth();
@@ -30,6 +31,7 @@ const CreationReclamoCard = () => {
   const [checkbox, setCheckbox] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const [image, setImage] = useState([]);
+  const [network, setNetwork] = useState(null);
 
   useEffect(() => {
     getVecinos().then((data) => {
@@ -47,6 +49,13 @@ const CreationReclamoCard = () => {
       });
       setSitiosList(siteArray);
     });
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const networkState = await Network.getNetworkStateAsync();
+      setNetwork(networkState);
+    })();
   }, []);
 
   handleChekbox = () => {
@@ -78,6 +87,26 @@ const CreationReclamoCard = () => {
   };
 
   async function handleSubmit() {
+    if (network.type === "CELLULAR") {
+      Alert.alert(
+        "Advertencia",
+        "¿Desea enviar el reclamo con conexión móvil?",
+        [
+          {
+            text: "No",
+            onPress: () => {
+              return;
+            },
+            style: "cancel",
+          },
+          {
+            text: "Sí",
+          },
+        ],
+        { cancelable: false }
+      );
+    }
+
     const imagenesFileNames = image.map((imagen) => imagen.fileName);
 
     const denuncia = {

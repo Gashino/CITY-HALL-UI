@@ -20,6 +20,7 @@ import { useAuth } from "../context/auth";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native";
 import { uploadImages } from "../services/formDataService";
+import * as Network from "expo-network";
 
 const ProfesionalCard = ({ data, setData }) => {
   const [rubrosList, setRubrosList] = useState([]);
@@ -303,9 +304,17 @@ const profesionalDataInitialState = {
 const CreateServicioCard = ({ tipo }) => {
   const { user } = useAuth();
   const [data, setData] = useState(dataInitialState);
+  const [network, setNetwork] = useState(null);
   const [profesionalData, setProfesionalData] = useState(
     profesionalDataInitialState
   );
+
+  useEffect(() => {
+    (async () => {
+      const networkState = await Network.getNetworkStateAsync();
+      setNetwork(networkState);
+    })();
+  }, []);
 
   async function handleSubmit() {
     const isValid =
@@ -314,6 +323,26 @@ const CreateServicioCard = ({ tipo }) => {
         : await validateProfesionalService();
 
     if (!isValid) return;
+
+    if (network.type === "CELLULAR") {
+      Alert.alert(
+        "Advertencia",
+        "¿Desea enviar el reclamo con conexión móvil?",
+        [
+          {
+            text: "No",
+            onPress: () => {
+              return;
+            },
+            style: "cancel",
+          },
+          {
+            text: "Sí",
+          },
+        ],
+        { cancelable: false }
+      );
+    }
 
     const imagenesFileNames =
       tipo === "normal"
