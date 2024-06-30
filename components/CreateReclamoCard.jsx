@@ -17,6 +17,7 @@ import { useAuth } from "../context/auth";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native";
 import { uploadImages } from "../services/formDataService";
+import * as Network from "expo-network";
 
 const CreationReclamoCard = () => {
   const [sitio, setSitio] = useState(null);
@@ -26,6 +27,7 @@ const CreationReclamoCard = () => {
   const [descripcion, setDescripcion] = useState("");
   const { user } = useAuth();
   const [image, setImage] = useState([]);
+  const [network, setNetwork] = useState(null);
 
   useEffect(() => {
     getSites().then((data) => {
@@ -53,10 +55,37 @@ const CreationReclamoCard = () => {
     });
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const networkState = await Network.getNetworkStateAsync();
+      setNetwork(networkState);
+    })();
+  }, []);
+
   async function handleSubmit() {
     if (!sitio || !desperfecto || descripcion === "") {
       Alert.alert("Error", "Por favor complete todos los campos");
       return;
+    }
+
+    if (network.type === "CELLULAR") {
+      Alert.alert(
+        "Advertencia",
+        "¿Desea enviar el reclamo con conexión móvil?",
+        [
+          {
+            text: "No",
+            onPress: () => {
+              return;
+            },
+            style: "cancel",
+          },
+          {
+            text: "Sí",
+          },
+        ],
+        { cancelable: false }
+      );
     }
 
     const imagenesFileNames = image.map((imagen) => imagen.fileName);
